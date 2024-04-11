@@ -5,10 +5,11 @@ export class InputAppendTarget extends Target {
   async write(text: string): Promise<void> {
     const oldContent = await clipboard.getContent()
 
+    keyboard.config = { autoDelayMs: 50 }
+
     await clipboard.setContent(text)
 
-    await keyboard.pressKey(Key.LeftControl, Key.V)
-    await keyboard.releaseKey(Key.LeftControl, Key.V)
+    await keyboard.type(Key.LeftControl, Key.V)
 
     await clipboard.setContent(oldContent)
   }
