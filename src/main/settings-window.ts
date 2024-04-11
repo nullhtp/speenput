@@ -2,12 +2,21 @@ import { BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
 import { is } from '@electron-toolkit/utils'
+import { SettingsWindowEvents } from '../shared/settings-window.events'
 
 export class SettingsWindow {
   private settingsWindow: BrowserWindow | null = null
 
   constructor() {
     this.settingsWindow = this.createWindow()
+  }
+
+  emit(eventName: SettingsWindowEvents, payload?: unknown): void {
+    this.settingsWindow?.emit(eventName, payload)
+  }
+
+  toggle(): void {
+    this.settingsWindow?.isVisible() ? this.hide() : this.show()
   }
 
   show(): void {

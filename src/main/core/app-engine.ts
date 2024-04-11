@@ -1,11 +1,14 @@
 import { app } from 'electron'
 import { SettingsWindow } from '../settings-window'
+import { AppTray } from './app-tray'
 
 export class AppEngine {
   private settingsWindow: SettingsWindow
+  private appTray: AppTray
 
   constructor() {
     this.settingsWindow = new SettingsWindow()
+    this.appTray = new AppTray()
   }
 
   registerHandlers(): void {
@@ -14,5 +17,16 @@ export class AppEngine {
       // dock icon is clicked and there are no other windows open.
       this.settingsWindow?.show()
     })
+
+    this.appTray.init(
+      () => this.settingsWindow.toggle(),
+      () => this.exit()
+    )
+
+    this.appTray.showBalloon('Hello', 'World')
+  }
+
+  exit(): void {
+    app.quit()
   }
 }
