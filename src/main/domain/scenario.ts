@@ -21,11 +21,11 @@ export class Scenario {
   }
 
   async execute(): Promise<void> {
-    const data = await this.source.getText()
-    const transformedData = this.transformers.reduce(
-      (acc, transformer) => transformer.transform(acc),
-      data
-    )
-    await this.target.write(transformedData)
+    let data = await this.source.getText()
+
+    for (const transformer of this.transformers) {
+      data = await transformer.transform(data)
+    }
+    await this.target.write(data)
   }
 }
