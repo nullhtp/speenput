@@ -21,13 +21,16 @@
     "build:linux": "electron-vite build && electron-builder --linux"
   },
   "dependencies": {
+    "@chengsokdara/use-whisper": "^0.2.0",
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "@langchain/community": "^0.0.47",
     "@langchain/core": "^0.1.57",
     "@langchain/openai": "^0.0.28",
     "@nut-tree/nut-js": "^4.1.0",
-    "electron-updater": "^6.1.7"
+    "electron-router-dom": "^1.0.5",
+    "electron-updater": "^6.1.7",
+    "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",

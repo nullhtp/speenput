@@ -3,8 +3,9 @@ import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { AppEngine } from './core/app-engine'
 import { Scenario } from './domain/scenario'
 import { ShortcutManager } from './services/shortcut-manager'
-import { SelectionSource } from './services/selection-source'
 import { InputReplaceTarget } from './services/input-replace-target'
+import { OpenAiTextTransformer } from './services/openai-text-transformer'
+import { SpeechSource } from './services/speech-source'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -30,7 +31,19 @@ app.whenReady().then(() => {
   const shortcutManager = new ShortcutManager()
 
   const scenario = new Scenario({
-    source: new SelectionSource(),
+    source: new SpeechSource({
+      cancelRecordKeyCombination: 'ESCAPE',
+      stopRecordKeyCombination: 'Alt+B'
+    }),
+    transformers: [
+      new OpenAiTextTransformer({
+        modelName: 'gpt-3.5-turbo-1106',
+        temperature: 0.2,
+        apiKey: '',
+        humanMessage: 'Summarize it on russian: {data}',
+        systemMessage: 'You are a helpful assistant'
+      })
+    ],
     target: new InputReplaceTarget()
   })
 

@@ -1,5 +1,5 @@
 import { app } from 'electron'
-import { SettingsWindow } from '../settings-window'
+import { SettingsWindow } from '../windows/settings-window'
 import { AppTray } from './app-tray'
 
 export class AppEngine {
@@ -24,6 +24,10 @@ export class AppEngine {
     )
 
     this.appTray.showBalloon('Hello', 'World')
+  }
+
+  getSettingsWindow(): SettingsWindow {
+    return this.settingsWindow
   }
 
   exit(): void {

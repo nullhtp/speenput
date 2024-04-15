@@ -1,8 +1,8 @@
 import { BrowserWindow, shell } from 'electron'
 import { join } from 'path'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../../resources/icon.png?asset'
 import { is } from '@electron-toolkit/utils'
-import { SettingsWindowEvents } from '../shared/settings-window.events'
+import { SettingsWindowEvents } from '../../shared/settings-window.events'
 
 export class SettingsWindow {
   private settingsWindow: BrowserWindow | null = null
@@ -12,7 +12,7 @@ export class SettingsWindow {
   }
 
   emit(eventName: SettingsWindowEvents, payload?: unknown): void {
-    this.settingsWindow?.emit(eventName, payload)
+    this.settingsWindow?.webContents.send(eventName, payload)
   }
 
   toggle(): void {
