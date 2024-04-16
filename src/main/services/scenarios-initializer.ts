@@ -1,4 +1,4 @@
-import { statSync, existsSync, writeJSON, ensureFile } from 'fs-extra'
+import { statSync, writeJSON, ensureFile } from 'fs-extra'
 import { Scenario } from '../domain/scenario'
 import { SpeechSource } from '../sources/speech-source'
 import { InputAppendTarget } from '../targets/input-append-target'
