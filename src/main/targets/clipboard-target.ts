@@ -1,15 +1,16 @@
+import { clipboard } from 'electron'
+import { Target } from '../domain/target'
 import { TargetDto } from '../../shared/dtos/target.dto'
 import { TargetType } from '../../shared/types/target-type'
-import { Target } from '../domain/target'
 
-export class ConsoleTarget extends Target {
+export class ClipboardTarget extends Target {
   async write(text: string): Promise<void> {
-    console.log(text)
+    clipboard.writeText(text)
   }
 
   toDto(): TargetDto {
     return {
-      type: TargetType.CONSOLE
+      type: TargetType.CLIPBOARD
     }
   }
 }

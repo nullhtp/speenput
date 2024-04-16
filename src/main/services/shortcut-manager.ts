@@ -15,4 +15,8 @@ export class ShortcutManager {
   unregister(keyCombination: string): void {
     globalShortcut.unregister(keyCombination)
   }
+
+  unregisterAll(): void {
+    globalShortcut.unregisterAll()
+  }
 }
