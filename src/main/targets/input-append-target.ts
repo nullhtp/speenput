@@ -11,7 +11,8 @@ export class InputAppendTarget extends Target {
 
     await clipboard.setContent(text)
 
-    await keyboard.type(Key.LeftControl, Key.V)
+    await keyboard.pressKey(Key.LeftControl, Key.V)
+    await keyboard.releaseKey(Key.LeftControl, Key.V)
 
     await clipboard.setContent(oldContent)
   }

@@ -1,17 +1,38 @@
 import { app } from 'electron'
 import { SettingsWindow } from '../windows/settings-window'
 import { AppTray } from './app-tray'
+import { ScenarioManager } from '../services/scenario.manager'
+import { join } from 'path'
+import { FileScenarioStore } from '../services/file-scenario.store'
+import { watchFile } from 'fs-extra'
+import { ScenariosInitializer } from '../services/scenarios-initializer'
+
+const SCENARIO_FILE_PATH = join('.', 'scenarios.json')
 
 export class AppEngine {
-  private settingsWindow: SettingsWindow
-  private appTray: AppTray
+  private settingsWindow = new SettingsWindow()
+  private appTray = new AppTray()
 
-  constructor() {
-    this.settingsWindow = new SettingsWindow()
-    this.appTray = new AppTray()
-  }
+  private scenarioInitializer = new ScenariosInitializer(SCENARIO_FILE_PATH)
 
-  registerHandlers(): void {
+  private scenarioManager = new ScenarioManager(new FileScenarioStore(SCENARIO_FILE_PATH))
+
+  async init(): Promise<void> {
+    process.on('uncaughtException', (error) => {
+      this.appTray.showBalloon('Error', error.message)
+    })
+
+    process.on('unhandledRejection', (error: Error) => {
+      this.appTray.showBalloon('Error', error.message ?? 'Unknown error')
+    })
+    await this.scenarioInitializer.initializeIfNot()
+
+    await this.scenarioManager.reload()
+
+    watchFile(SCENARIO_FILE_PATH, async () => {
+      await this.scenarioManager.reload()
+    })
+
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
@@ -22,10 +43,6 @@ export class AppEngine {
       () => this.settingsWindow.toggle(),
       () => this.exit()
     )
-
-    process.on('uncaughtException', (error) => {
-      this.appTray.showBalloon('Error', error.message)
-    })
   }
 
   getSettingsWindow(): SettingsWindow {

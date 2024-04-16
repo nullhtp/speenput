@@ -1,16 +1,11 @@
 import { app } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { AppEngine } from './core/app-engine'
-import { Scenario } from './domain/scenario'
-import { ShortcutManager } from './services/shortcut-manager'
-import { InputReplaceTarget } from './services/input-replace-target'
-import { OpenAiTextTransformer } from './services/openai-text-transformer'
-import { SpeechSource } from './services/speech-source'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -23,31 +18,7 @@ app.whenReady().then(() => {
 
   const engine = new AppEngine()
 
-  engine.registerHandlers()
-
-  // IPC test
-  // ipcMain.on('ping', () => console.log('pong'))
-
-  const shortcutManager = new ShortcutManager()
-
-  const scenario = new Scenario({
-    source: new SpeechSource({
-      cancelRecordKeyCombination: 'ESCAPE',
-      stopRecordKeyCombination: 'Alt+B'
-    }),
-    transformers: [
-      new OpenAiTextTransformer({
-        modelName: 'gpt-3.5-turbo-1106',
-        temperature: 0.2,
-        apiKey: '',
-        humanMessage: 'Summarize it on russian: {data}',
-        systemMessage: 'You are a helpful assistant'
-      })
-    ],
-    target: new InputReplaceTarget()
-  })
-
-  shortcutManager.register('Alt+X', scenario)
+  await engine.init()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

@@ -11,8 +11,11 @@ export class InputReplaceTarget extends Target {
 
     keyboard.config = { autoDelayMs: 50 }
 
-    await keyboard.type(Key.LeftControl, Key.A)
-    await keyboard.type(Key.LeftControl, Key.V)
+    await keyboard.pressKey(Key.LeftControl, Key.A)
+    await keyboard.releaseKey(Key.LeftControl, Key.A)
+
+    await keyboard.pressKey(Key.LeftControl, Key.V)
+    await keyboard.releaseKey(Key.LeftControl, Key.V)
 
     await clipboard.setContent(oldContent)
   }

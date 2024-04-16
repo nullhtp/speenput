@@ -10,6 +10,10 @@ type SelectionSourceDto = {
   type: SourceType.SELECTION
 }
 
+type InputFieldSourceDto = {
+  type: SourceType.INPUT_FIELD
+}
+
 type SpeechSourceDto = {
   type: SourceType.SPEECH
   params: SpeechSourceParams
@@ -20,4 +24,9 @@ type StaticSourceDto = {
   params: StaticSourceParams
 }
 
-export type SourceDto = ClipboardSourceDto | SelectionSourceDto | StaticSourceDto | SpeechSourceDto
+export type SourceDto =
+  | ClipboardSourceDto
+  | SelectionSourceDto
+  | StaticSourceDto
+  | SpeechSourceDto
+  | InputFieldSourceDto

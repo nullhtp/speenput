@@ -6,6 +6,7 @@ import { ClipboardSource } from '../sources/clipboard-source'
 import { SelectionSource } from '../sources/selection-source'
 import { SpeechSource } from '../sources/speech-source'
 import { StaticSource } from '../sources/static-source'
+import { InputFieldSource } from '../sources/input-field-source'
 
 export class SourceMapper {
   fromDto(dto: SourceDto): Source {
@@ -15,6 +16,8 @@ export class SourceMapper {
         return new ClipboardSource()
       case SourceType.SELECTION:
         return new SelectionSource()
+      case SourceType.INPUT_FIELD:
+        return new InputFieldSource()
       case SourceType.SPEECH:
         return new SpeechSource(dto.params)
       case SourceType.STATIC:
