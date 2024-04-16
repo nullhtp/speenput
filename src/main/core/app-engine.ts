@@ -23,7 +23,9 @@ export class AppEngine {
       () => this.exit()
     )
 
-    this.appTray.showBalloon('Hello', 'World')
+    process.on('uncaughtException', (error) => {
+      this.appTray.showBalloon('Error', error.message)
+    })
   }
 
   getSettingsWindow(): SettingsWindow {
