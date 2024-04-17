@@ -1,6 +1,6 @@
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { Settings } from './settings-page/Settings'
-import { SpeechRecognizer } from './SpeechRecognizer'
+import { SpeechRecognizer } from './speech-recognizer-page/SpeechRecognizer'
 
 const router = createHashRouter([
   {

@@ -1,5 +1,5 @@
-import { SettingsWindowEvents } from '../../shared/settings-window.events'
-import { ProcessMainEvents } from '../../shared/process-main.events'
+import { SettingsWindowEvents } from '../../../shared/settings-window.events'
+import { ProcessMainEvents } from '../../../shared/process-main.events'
 import { useWhisper } from '@chengsokdara/use-whisper'
 
 export const SpeechRecognizer = (): JSX.Element => {
