@@ -2,7 +2,7 @@ import { SettingsWindowEvents } from '../../shared/settings-window.events'
 import { ProcessMainEvents } from '../../shared/process-main.events'
 import { useWhisper } from '@chengsokdara/use-whisper'
 
-function SpeechRecognizer(): JSX.Element {
+export const SpeechRecognizer = (): JSX.Element => {
   console.log('START')
 
   const ipcRenderer = window.electron.ipcRenderer
@@ -88,5 +88,3 @@ function SpeechRecognizer(): JSX.Element {
     </>
   )
 }
-
-export default SpeechRecognizer
