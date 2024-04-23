@@ -1,10 +1,25 @@
-import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form'
+import {
+  FieldErrors,
+  FieldValues,
+  Path,
+  useForm,
+  UseFormRegister,
+  UseFormReturn
+} from 'react-hook-form'
 
 type AppFormParams<FormParams, EntityParams> = {
   initValues: FormParams
   onEdit: (params: EntityParams) => void
   formEl: React.MutableRefObject<HTMLFormElement | undefined>
   mapToEntity?: (data: FormParams) => EntityParams
+}
+
+type AppFormResult<FormParams extends FieldValues> = Omit<
+  UseFormReturn<FormParams, object, undefined>,
+  'onSubmit'
+> & {
+  onSubmit: (e?: React.BaseSyntheticEvent<object, object, object> | undefined) => Promise<void>
+  createControl: (params: CreateControlProps<FormParams>) => CreateControlResult<FormParams>
 }
 
 const defaultMapper = <T>(data): T => {
@@ -16,7 +31,7 @@ export const useAppForm = <FormParams extends FieldValues, EntityParams>({
   onEdit,
   formEl,
   mapToEntity
-}: AppFormParams<FormParams, EntityParams>) => {
+}: AppFormParams<FormParams, EntityParams>): AppFormResult<FormParams> => {
   const formProps = useForm<FormParams>({
     values: initValues,
     mode: 'all'
@@ -32,10 +47,11 @@ export const useAppForm = <FormParams extends FieldValues, EntityParams>({
     onEdit(mapToEntity(data))
     formProps.reset(data)
   }
+
   return {
     ...formProps,
     onSubmit: formProps.handleSubmit(onSubmit),
-    createControl: createControl({
+    createControl: createControlFn({
       register: formProps.register,
       errors: formProps.formState.errors,
       onBlur: onValueChange
@@ -43,21 +59,25 @@ export const useAppForm = <FormParams extends FieldValues, EntityParams>({
   }
 }
 
-const createControl =
-  ({
-    register,
-    errors,
-    onBlur
-  }: {
-    register: UseFormRegister<any>
-    errors: FieldErrors<object>
-    onBlur: () => Promise<void>
-  }) =>
-  ({ name, label, isRequired }: { name: string; label: string; isRequired: boolean }) => ({
+type CreateControlInherProps<T extends FieldValues> = {
+  register: UseFormRegister<T>
+  errors: FieldErrors<object>
+  onBlur: () => Promise<void>
+}
+
+type CreateControlProps<T extends FieldValues> = {
+  name: Path<T>
+  label: string
+}
+
+type CreateControlResult<T extends FieldValues> = CreateControlProps<T> & CreateControlInherProps<T>
+
+const createControlFn =
+  <T extends FieldValues>({ register, errors, onBlur }: CreateControlInherProps<T>) =>
+  ({ name, label }: CreateControlProps<T>): CreateControlResult<T> => ({
     register,
     onBlur,
     errors,
     name,
-    label,
-    isRequired
+    label
   })

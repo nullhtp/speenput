@@ -1,17 +1,16 @@
 import { Select, SelectItem, SelectProps } from '@nextui-org/react'
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
+import { FieldErrors, FieldValues, Path, UseFormRegister } from 'react-hook-form'
 
 type SelectParams = {
-  name: string
+  name: Path<FieldValues>
   items: { label: string; value: string }[]
-  errors: FieldErrors<object>
+  errors: FieldErrors<FieldValues>
   isRequired?: boolean
-  minLength?: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
-} & SelectProps
+} & Omit<SelectProps, 'validate' | 'children'>
 
-export const AppSelect = ({
+export function AppSelect({
   register,
   errors,
   name,
@@ -19,14 +18,13 @@ export const AppSelect = ({
   onBlur,
   items,
   ...props
-}: Omit<SelectParams, 'children'>): JSX.Element => {
+}: SelectParams): JSX.Element {
   return (
     <Select
       {...props}
-      className="max-w-xs"
       placeholder=" "
       isInvalid={!!errors[name]}
-      errorMessage={errors[name]?.message}
+      errorMessage={errors[name]?.message as string}
       {...register(name, {
         onChange: onBlur,
         required: isRequired ? { value: !!isRequired, message: 'Field is required' } : undefined

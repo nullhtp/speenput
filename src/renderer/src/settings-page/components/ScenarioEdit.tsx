@@ -11,14 +11,18 @@ export const ScenarioEdit = ({
   scenario: ScenarioDto
   onChange: (scenario: ScenarioDto) => void
 }): JSX.Element => {
-  const onEdit = (data): void => {
+  const onMainEdit = (data): void => {
     onChange({ ...scenario, ...data })
+  }
+
+  const onsourceEdit = (source): void => {
+    onChange({ ...scenario, source })
   }
 
   return (
     <div className="flex flex-col w-full gap-3 p-6">
-      <ScenarioMainForm scenario={scenario} onEdit={onEdit}></ScenarioMainForm>
-      <SourceForm source={scenario.source} onEdit={onEdit}></SourceForm>
+      <ScenarioMainForm scenario={scenario} onEdit={onMainEdit}></ScenarioMainForm>
+      <SourceForm source={scenario.source} onEdit={onsourceEdit}></SourceForm>
       <TransformerForm transformers={scenario.transformers}></TransformerForm>
       <TargetForm target={scenario.target}></TargetForm>
     </div>

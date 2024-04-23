@@ -6,6 +6,7 @@ import { SourceType } from '../../../../shared/types/source-type'
 import { useAppForm } from '../hooks/useAppForm'
 import { StaticSourceParams } from '../../../../shared/params/static-source.params'
 import { SpeechSourceParams } from '../../../../shared/params/speech-source.params'
+import { AppInput } from './ui/AppInput'
 
 type SourceFormParams = {
   type: SourceType
@@ -38,17 +39,18 @@ export const SourceForm = ({
 }): JSX.Element => {
   const formEl = useRef<HTMLFormElement>()
 
-  const { onSubmit, createControl } = useAppForm<SourceFormParams, SourceDto>({
+  const { onSubmit, createControl, watch } = useAppForm<SourceFormParams, SourceDto>({
     initValues: source,
     onEdit,
     formEl,
     mapToEntity
   })
 
+  const typeWatcher = watch('type')
+
   const typeControl = createControl({
     name: 'type',
-    label: 'Scenario name',
-    isRequired: true
+    label: 'Source type'
   })
 
   return (
@@ -60,8 +62,41 @@ export const SourceForm = ({
       </CardHeader>
       <Divider />
       <CardBody>
-        <form ref={formEl} className="flex flex-row gap-3" onSubmit={onSubmit}>
+        <form
+          ref={formEl as React.RefObject<HTMLFormElement>}
+          className="flex flex-col gap-3"
+          onSubmit={onSubmit}
+        >
           <AppSelect {...typeControl} items={sourceTypeItems}></AppSelect>
+          {typeWatcher === SourceType.STATIC && (
+            <AppInput
+              {...createControl({
+                name: 'type',
+                label: 'Static text'
+              })}
+            />
+          )}
+          {typeWatcher === SourceType.SPEECH && (
+            <>
+              <AppInput
+                {...createControl({
+                  name: 'maxDelay',
+                  label: 'Max delay'
+                })}
+                inputMode="decimal"
+                defaultValue="0"
+                isRequired
+              />
+              <AppInput
+                {...createControl({
+                  name: 'apiKey',
+                  label: 'Api key'
+                })}
+                type="password"
+                isRequired
+              />
+            </>
+          )}
         </form>
       </CardBody>
       <Divider />

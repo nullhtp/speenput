@@ -23,23 +23,25 @@ export const ScenarioMainForm = ({
 
   const nameControl = createControl({
     name: 'name',
-    label: 'Scenario name',
-    isRequired: true
+    label: 'Scenario name'
   })
 
   const hotkeyControl = createControl({
     name: 'hotkey',
-    label: 'Enter hotkey',
-    isRequired: true
+    label: 'Enter hotkey'
   })
 
   return (
     <div className="flex flex-col w-full">
       <Card className="max-w-full">
         <CardBody className="overflow-hidden">
-          <form ref={formEl} className="flex flex-row gap-3" onSubmit={onSubmit}>
-            <AppInput {...nameControl} minLength={4} />
-            <AppInput {...hotkeyControl} />
+          <form
+            ref={formEl as React.RefObject<HTMLFormElement>}
+            className="flex flex-row gap-3"
+            onSubmit={onSubmit}
+          >
+            <AppInput {...nameControl} minLength={4} isRequired />
+            <AppInput {...hotkeyControl} isRequired />
           </form>
         </CardBody>
       </Card>
