@@ -49,7 +49,7 @@ export const SourceForm = ({
   const typeWatcher = watch('type')
 
   return (
-    <Card className="max-w-[400px]">
+    <Card className="max-w">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <p className="text-md">Source</p>

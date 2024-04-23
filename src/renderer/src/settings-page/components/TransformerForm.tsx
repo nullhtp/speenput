@@ -6,6 +6,7 @@ import { TransformerDto } from '../../../../shared/dtos/transformer.dto'
 import { TransformerType } from '../../../../shared/types/transformer-type'
 import { OpenAiTextTransformerParams } from '../../../../shared/params/openai-text.transformer'
 import { UseFieldArrayRemove, UseFieldArrayUpdate } from 'react-hook-form'
+import { AppTextarea } from './ui/AppTextarea'
 
 type TransformerFormParams = {
   type: TransformerType
@@ -48,7 +49,7 @@ export const TransformerForm = ({
   const typeWatcher = watch('type')
 
   return (
-    <Card className="max-w-[400px]">
+    <Card className="max-w">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <p className="text-md">Transform</p>
@@ -99,14 +100,14 @@ export const TransformerForm = ({
               defaultValue="0.3"
               isRequired
             />
-            <AppInput
+            <AppTextarea
               {...createControl({
                 name: 'systemMessage',
                 label: 'System message'
               })}
               inputMode="text"
             />
-            <AppInput
+            <AppTextarea
               {...createControl({
                 name: 'humanMessage',
                 label: 'Human message'
