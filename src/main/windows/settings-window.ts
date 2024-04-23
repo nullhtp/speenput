@@ -30,8 +30,10 @@ export class SettingsWindow {
   private createWindow(): BrowserWindow {
     const settingsWindow = new BrowserWindow({
       width: 900,
-      height: 670,
+      height: 700,
       show: false,
+      alwaysOnTop: true,
+      center: true,
       autoHideMenuBar: true,
       ...(process.platform === 'linux' ? { icon } : {}),
       webPreferences: {

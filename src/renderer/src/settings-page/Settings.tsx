@@ -27,8 +27,8 @@ export const Settings = (): JSX.Element => {
     }
   ]
   return (
-    <div className="h-full ">
-      {/* <LeftMenu scenarios={scenarios}></LeftMenu> */}
+    <div className="flex flex-row gap-3">
+      <LeftMenu scenarios={scenarios}></LeftMenu>
       <ScenarioEdit scenario={scenarios[0]}></ScenarioEdit>
     </div>
   )
