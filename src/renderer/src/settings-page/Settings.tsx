@@ -15,6 +15,7 @@ export const Settings = (): JSX.Element => {
       target: { type: TargetType.INPUT_REPLACE },
       transformers: [
         {
+          id: '1',
           type: TransformerType.OPENAI_TEXT,
           params: {
             apiKey: '',

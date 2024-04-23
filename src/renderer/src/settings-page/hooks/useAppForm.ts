@@ -10,7 +10,7 @@ import {
 type AppFormParams<FormParams, EntityParams> = {
   initValues: FormParams
   onEdit: (params: EntityParams) => void
-  formEl: React.MutableRefObject<HTMLFormElement | undefined>
+  formEl?: React.MutableRefObject<HTMLFormElement | undefined>
   mapToEntity?: (data: FormParams) => EntityParams
 }
 
@@ -40,7 +40,7 @@ export const useAppForm = <FormParams extends FieldValues, EntityParams>({
   mapToEntity ??= defaultMapper
 
   const onValueChange = async (): Promise<void> => {
-    formEl.current?.requestSubmit()
+    formEl?.current?.requestSubmit() ?? onSubmit(formProps.getValues())
   }
 
   const onSubmit = (data: FormParams): void => {
