@@ -4,9 +4,10 @@ import { ScenarioEdit } from './components/ScenarioEdit'
 import { SourceType } from '../../../shared/types/source-type'
 import { TargetType } from '../../../shared/types/target-type'
 import { TransformerType } from '../../../shared/types/transformer-type'
+import { useState } from 'react'
 
 export const Settings = (): JSX.Element => {
-  const scenarios: ScenarioDto[] = [
+  const [scenarios, setScenarios] = useState<ScenarioDto[]>([
     {
       hotkey: 'Alt+X',
       name: 'Test scenario',
@@ -25,11 +26,16 @@ export const Settings = (): JSX.Element => {
         }
       ]
     }
-  ]
+  ])
+
+  const onChange = (scenario: ScenarioDto): void => {
+    setScenarios([scenario])
+  }
+
   return (
     <div className="flex flex-row gap-3">
       <LeftMenu scenarios={scenarios}></LeftMenu>
-      <ScenarioEdit scenario={scenarios[0]}></ScenarioEdit>
+      <ScenarioEdit scenario={scenarios[0]} onChange={onChange}></ScenarioEdit>
     </div>
   )
 }
