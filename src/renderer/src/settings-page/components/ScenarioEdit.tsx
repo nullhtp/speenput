@@ -15,16 +15,20 @@ export const ScenarioEdit = ({
     onChange({ ...scenario, ...data })
   }
 
-  const onsourceEdit = (source): void => {
+  const onSourceEdit = (source): void => {
     onChange({ ...scenario, source })
+  }
+
+  const onTargetEdit = (target): void => {
+    onChange({ ...scenario, target })
   }
 
   return (
     <div className="flex flex-col w-full gap-3 p-6">
       <ScenarioMainForm scenario={scenario} onEdit={onMainEdit}></ScenarioMainForm>
-      <SourceForm source={scenario.source} onEdit={onsourceEdit}></SourceForm>
+      <SourceForm source={scenario.source} onEdit={onSourceEdit}></SourceForm>
       <TransformerForm transformers={scenario.transformers}></TransformerForm>
-      <TargetForm target={scenario.target}></TargetForm>
+      <TargetForm target={scenario.target} onEdit={onTargetEdit}></TargetForm>
     </div>
   )
 }
