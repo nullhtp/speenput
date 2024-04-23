@@ -48,11 +48,6 @@ export const SourceForm = ({
 
   const typeWatcher = watch('type')
 
-  const typeControl = createControl({
-    name: 'type',
-    label: 'Source type'
-  })
-
   return (
     <Card className="max-w-[400px]">
       <CardHeader className="flex gap-3">
@@ -67,7 +62,13 @@ export const SourceForm = ({
           className="flex flex-col gap-3"
           onSubmit={onSubmit}
         >
-          <AppSelect {...typeControl} items={sourceTypeItems}></AppSelect>
+          <AppSelect
+            {...createControl({
+              name: 'type',
+              label: 'Source type'
+            })}
+            items={sourceTypeItems}
+          ></AppSelect>
           {typeWatcher === SourceType.STATIC && (
             <AppInput
               {...createControl({
