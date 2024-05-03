@@ -1,4 +1,4 @@
-import { ScenarioDto } from '../../../../shared/dtos/scenario.dto'
+import { ScenarioDto } from '../../../../shared/scenario/scenario.dto'
 import { ScenarioMainForm } from './ScenarioMainForm'
 import { SourceForm } from './SourceForm'
 import { TargetForm } from './TargetForm'

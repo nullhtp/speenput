@@ -1,6 +1,6 @@
-import { Scenario } from '../domain/scenario'
+import { Scenario } from '../../shared/scenario/scenario'
 import { ScenarioStore } from '../domain/scenario.store'
-import { ScenarioMapper } from './scenario.mapper'
+import { ScenarioMapper } from '../../shared/scenario/scenario.mapper'
 import { ShortcutManager } from './shortcut-manager'
 
 export class ScenarioManager {

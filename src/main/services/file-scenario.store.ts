@@ -1,5 +1,5 @@
 import { readJSON, writeJSON } from 'fs-extra'
-import { ScenarioDto } from '../../shared/dtos/scenario.dto'
+import { ScenarioDto } from '../../shared/scenario/scenario.dto'
 import { ScenarioStore } from '../domain/scenario.store'
 
 export class FileScenarioStore implements ScenarioStore {

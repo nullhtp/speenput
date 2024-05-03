@@ -1,5 +1,5 @@
 import { Card, CardBody } from '@nextui-org/react'
-import { ScenarioDto } from '../../../../shared/dtos/scenario.dto'
+import { ScenarioDto } from '../../../../shared/scenario/scenario.dto'
 import { AppInput } from './ui/AppInput'
 import { useRef } from 'react'
 import { useAppForm } from '../hooks/useAppForm'

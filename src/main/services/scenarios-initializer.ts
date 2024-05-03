@@ -1,9 +1,5 @@
 import { statSync, writeJSON, ensureFile } from 'fs-extra'
-import { Scenario } from '../domain/scenario'
-import { OpenAiTextTransformer } from '../../shared/transformers/openai-text/openai-text-transformer.main'
-import { SpeechSource } from '../../shared/sources/speech/speech-source.main'
-import { InputFieldSource } from '../../shared/sources/input-field/input-field-source.main'
-import { InputAppendTarget } from '../../shared/targets/input-append/input-append-target.main'
+import { initScenarios } from '../../shared/scenario/scenarios.initialization'
 
 export class ScenariosInitializer {
   constructor(private filename: string) {}
@@ -16,40 +12,8 @@ export class ScenariosInitializer {
       return
     }
 
-    const speechToInputScenarioDto = this.getSpeechToInputScenario().toDto()
-    const inputGrammarScenario = this.getInputGrammarScenario().toDto()
+    const scenarioDtos = initScenarios.map((scenario) => scenario.toDto())
 
-    await writeJSON(this.filename, [speechToInputScenarioDto, inputGrammarScenario])
-  }
-
-  private getSpeechToInputScenario(): Scenario {
-    return new Scenario({
-      hotkey: 'Alt+Z',
-      name: 'Speech to Input',
-      source: new SpeechSource({
-        apiKey: '???',
-        maxDelay: 10_000
-      }),
-      target: new InputAppendTarget()
-    })
-  }
-
-  private getInputGrammarScenario(): Scenario {
-    return new Scenario({
-      hotkey: 'Alt+X',
-      name: 'Grammar fixer',
-      source: new InputFieldSource(),
-      transformers: [
-        new OpenAiTextTransformer('1', {
-          apiKey: '???',
-          humanMessage: '{data}',
-          systemMessage:
-            'You are helpful assistent. I should only fix grammar in human message without extra words',
-          modelName: 'gpt-3.5-turbo-1106',
-          temperature: 0.2
-        })
-      ],
-      target: new InputAppendTarget()
-    })
+    await writeJSON(this.filename, scenarioDtos)
   }
 }

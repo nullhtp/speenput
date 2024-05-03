@@ -1,5 +1,5 @@
 import { globalShortcut } from 'electron'
-import { Scenario } from '../domain/scenario'
+import { Scenario } from '../../shared/scenario/scenario'
 
 export class ShortcutManager {
   register(keyCombination: string, scenario: Scenario): void {

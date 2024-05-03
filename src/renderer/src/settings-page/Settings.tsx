@@ -1,4 +1,4 @@
-import { ScenarioDto } from '../../../shared/dtos/scenario.dto'
+import { ScenarioDto } from '../../../shared/scenario/scenario.dto'
 import { LeftMenu } from './components/LeftMenu'
 import { ScenarioEdit } from './components/ScenarioEdit'
 import { SourceType } from '../../../shared/sources/source-type'

@@ -1,4 +1,4 @@
-import { ScenarioDto } from '../../shared/dtos/scenario.dto'
+import { ScenarioDto } from '../../shared/scenario/scenario.dto'
 
 export interface ScenarioStore {
   load(): Promise<ScenarioDto[]>

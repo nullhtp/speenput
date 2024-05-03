@@ -7,7 +7,7 @@
     "src/preload/*.d.ts",
     "src/shared/**/*",
     "src/shared/sources/**/*" ],
-  "exclude": ["src/shared/**/**/*.main.ts", "src/shared/**/*.mapper.ts"],
+  "exclude": ["src/shared/**/**/*.main.ts", "src/shared/**/*.mapper.ts", "src/shared/**/scenarios.initialization.ts"],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
