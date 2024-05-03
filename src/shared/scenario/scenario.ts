@@ -2,6 +2,7 @@ import { ScenarioDto } from './scenario.dto'
 import { Source } from '../sources/source-base'
 import { Target } from '../targets/target-base'
 import { DataTransformer } from '../transformers/transformer-base'
+import uuid from 'uuid'
 
 type ScenarioProps = {
   source: Source
@@ -10,6 +11,7 @@ type ScenarioProps = {
 } & Omit<ScenarioDto, 'source' | 'transformers' | 'target'>
 
 export class Scenario {
+  private id: string
   private source: Source
   private target: Target
 
@@ -18,7 +20,8 @@ export class Scenario {
 
   private transformers: DataTransformer[]
 
-  constructor({ source, target, transformers, hotkey, name }: ScenarioProps) {
+  constructor({ source, target, transformers, hotkey, name, id }: ScenarioProps) {
+    this.id = id ?? uuid.v4()
     this.source = source
     this.target = target
     this.transformers = transformers ?? []
@@ -41,6 +44,7 @@ export class Scenario {
     const transformersDtos = this.transformers?.map((transform) => transform.toDto())
 
     return {
+      id: this.id,
       hotkey: this.hotkey,
       name: this.name,
       source: sourceDto,

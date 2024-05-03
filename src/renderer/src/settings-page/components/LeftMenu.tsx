@@ -1,22 +1,33 @@
 import { Listbox, ListboxItem, ListboxSection } from '@nextui-org/react'
 import { ListboxWrapper } from './ListboxWrapper'
 import { Key, useState } from 'react'
+import { ScenarioDto } from 'src/shared/scenario/scenario.dto'
 
-type ScenarioItem = {
-  name: string
-  hotkey: string
-}
-
-export const LeftMenu = ({ scenarios }: { scenarios: ScenarioItem[] }): JSX.Element => {
+export const LeftMenu = ({
+  scenarios,
+  onChange,
+  onAdd
+}: {
+  scenarios: ScenarioDto[]
+  onChange: (scenario: ScenarioDto) => void
+  onAdd: () => void
+}): JSX.Element => {
   const [selectedKey, setSelectedKey] = useState<string>()
 
   const onAction = (key: Key): void => {
-    setSelectedKey(key.toString())
+    const id = key.toString()
+    if (id === '__new__') {
+      onAdd()
+    } else if (id) {
+      setSelectedKey(id)
+      const selectedItem = scenarios.find((scenario) => scenario.id === id)
+      selectedItem && onChange(selectedItem)
+    }
   }
 
   let elementItems = scenarios.map((scenario) => (
     <ListboxItem
-      key={scenario.name}
+      key={scenario.id}
       description={scenario.hotkey}
       className={selectedKey === scenario.name ? 'text-secondary' : ''}
       color={selectedKey === scenario.name ? 'secondary' : 'default'}
@@ -27,7 +38,7 @@ export const LeftMenu = ({ scenarios }: { scenarios: ScenarioItem[] }): JSX.Elem
 
   elementItems = [
     <ListboxItem
-      key="new"
+      key="__new__"
       description="Create a new scenario"
       className="text-success"
       color="success"

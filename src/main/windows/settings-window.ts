@@ -3,6 +3,7 @@ import { join } from 'path'
 import icon from '../../../resources/icon.png?asset'
 import { is } from '@electron-toolkit/utils'
 import { SettingsWindowEvents } from '../../shared/settings-window.events'
+import { Scenario } from '../../shared/scenario/scenario'
 
 export class SettingsWindow {
   private settingsWindow: BrowserWindow | null = null
@@ -13,6 +14,13 @@ export class SettingsWindow {
 
   emit(eventName: SettingsWindowEvents, payload?: unknown): void {
     this.settingsWindow?.webContents.send(eventName, payload)
+  }
+
+  updateScenarios(scenarios: Scenario[]): void {
+    this.emit(
+      SettingsWindowEvents.UPDATE_SETTINGS,
+      scenarios.map((scenario) => scenario.toDto())
+    )
   }
 
   toggle(): void {

@@ -1,42 +1,49 @@
+import { useState } from 'react'
 import { ScenarioDto } from '../../../../shared/scenario/scenario.dto'
 import { ScenarioMainForm } from './ScenarioMainForm'
 import { SourceForm } from './SourceForm'
 import { TargetForm } from './TargetForm'
 import { TransformerEdit } from './TransformerEdit'
+import { mergeRight, pipe, curry } from 'ramda'
 
 export const ScenarioEdit = ({
   scenario,
   onChange
 }: {
-  scenario: ScenarioDto
+  scenario?: ScenarioDto
   onChange: (scenario: ScenarioDto) => void
 }): JSX.Element => {
-  const onMainEdit = (data): void => {
-    onChange({ ...scenario, ...data })
+  if (!scenario) {
+    return <>Choose or create</>
   }
 
-  const onSourceEdit = (source): void => {
-    onChange({ ...scenario, source })
-  }
+  const [currentScenario, setCurrentScenario] = useState(scenario)
 
-  const onTargetEdit = (target): void => {
-    onChange({ ...scenario, target })
-  }
-
-  const onTransformersEdit = (transformers): void => {
-    console.log({ ...scenario, transformers })
-    onChange({ ...scenario, transformers })
-  }
+  const changeScenario = curry(
+    pipe(mergeRight, (newScenario: ScenarioDto): void => {
+      setCurrentScenario(newScenario)
+      onChange(newScenario)
+    })
+  )
 
   return (
     <div className="flex flex-col w-full gap-3 p-6">
-      <ScenarioMainForm scenario={scenario} onEdit={onMainEdit}></ScenarioMainForm>
-      <SourceForm source={scenario.source} onEdit={onSourceEdit}></SourceForm>
+      <ScenarioMainForm
+        scenario={scenario}
+        onEdit={changeScenario(currentScenario)}
+      ></ScenarioMainForm>
+      <SourceForm
+        source={scenario.source}
+        onEdit={(source) => changeScenario(currentScenario)({ source })}
+      ></SourceForm>
       <TransformerEdit
         transformers={scenario.transformers}
-        onEdit={onTransformersEdit}
+        onEdit={(transformers) => changeScenario(currentScenario)({ transformers })}
       ></TransformerEdit>
-      <TargetForm target={scenario.target} onEdit={onTargetEdit}></TargetForm>
+      <TargetForm
+        target={scenario.target}
+        onEdit={(target) => changeScenario(currentScenario)({ target })}
+      ></TargetForm>
     </div>
   )
 }

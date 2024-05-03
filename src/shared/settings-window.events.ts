@@ -1,5 +1,6 @@
 export enum SettingsWindowEvents {
   START_RECORD = 'start-record',
   STOP_RECORD = 'stop-record',
-  CANCEL_RECORD = 'cancel-record'
+  CANCEL_RECORD = 'cancel-record',
+  UPDATE_SETTINGS = 'update-settings'
 }
