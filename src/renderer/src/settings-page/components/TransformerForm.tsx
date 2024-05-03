@@ -1,12 +1,15 @@
 import { Card, CardHeader, Divider, CardBody, Button } from '@nextui-org/react'
 import { AppSelect } from './ui/AppSelect'
-import { useAppForm } from '../hooks/useAppForm'
-import { AppInput } from './ui/AppInput'
+import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
 import { TransformerDto } from '../../../../shared/transformers/transformer.dto'
 import { TransformerType } from '../../../../shared/transformers/transformer-type'
 import { OpenAiTextTransformerParams } from '../../../../shared/transformers/openai-text/openai-text-transformer.params'
 import { UseFieldArrayRemove, UseFieldArrayUpdate } from 'react-hook-form'
-import { AppTextarea } from './ui/AppTextarea'
+import {
+  transformerDefenitions,
+  TransformerFormDefenitions
+} from '../../../../shared/transformers/transformer.defenitions'
+import { FormBuilder } from './FormBuilder'
 
 type TransformerFormParams = {
   type: TransformerType
@@ -17,9 +20,10 @@ type TransformerTypeItems = {
   label: string
 }
 
-const transformerTypeItems: TransformerTypeItems[] = [
-  { value: TransformerType.OPENAI_TEXT, label: 'Get data from clipboard' }
-]
+const transformerTypeItems: TransformerTypeItems[] = transformerDefenitions.map((def) => ({
+  value: def.type,
+  label: def.label
+}))
 
 const mapToEntity = ({ type, ...params }: TransformerFormParams): TransformerDto => {
   return { type, params } as TransformerDto
@@ -47,6 +51,7 @@ export const TransformerForm = ({
   })
 
   const typeWatcher = watch('type')
+  const formDefenition = transformerDefenitions.find((d) => d.type === typeWatcher)
 
   return (
     <Card className="max-w">
@@ -72,50 +77,10 @@ export const TransformerForm = ({
           isRequired
           items={transformerTypeItems}
         ></AppSelect>
-        {typeWatcher === TransformerType.OPENAI_TEXT && (
-          <>
-            <AppInput
-              {...createControl({
-                name: 'modelName',
-                label: 'Model name'
-              })}
-              inputMode="text"
-              defaultValue="gpt-3.5-turbo"
-              isRequired
-            />
-            <AppInput
-              {...createControl({
-                name: 'apiKey',
-                label: 'Api key'
-              })}
-              type="password"
-              isRequired
-            />
-            <AppInput
-              {...createControl({
-                name: 'temperature',
-                label: 'Temperature'
-              })}
-              inputMode="decimal"
-              defaultValue="0.3"
-              isRequired
-            />
-            <AppTextarea
-              {...createControl({
-                name: 'systemMessage',
-                label: 'System message'
-              })}
-              inputMode="text"
-            />
-            <AppTextarea
-              {...createControl({
-                name: 'humanMessage',
-                label: 'Human message'
-              })}
-              inputMode="text"
-            />
-          </>
-        )}
+        <FormBuilder
+          createControl={createControl as unknown as CreateControlFunction}
+          defenition={formDefenition as unknown as TransformerFormDefenitions}
+        ></FormBuilder>
       </CardBody>
       <Divider />
     </Card>
