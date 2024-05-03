@@ -1,5 +1,5 @@
 import { SourceDto } from '../sources/source.dto'
-import { TargetDto } from './target.dto'
+import { TargetDto } from '../targets/target.dto'
 import { TransformerDto } from './transformer.dto'
 
 export type ScenarioDto = {
