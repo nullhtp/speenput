@@ -1,7 +1,7 @@
-import { TransformerDto } from '../../../../shared/dtos/transformer.dto'
+import { TransformerDto } from '../../../../shared/transformers/transformer.dto'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { TransformerForm } from './TransformerForm'
-import { TransformerType } from '../../../../shared/types/transformer-type'
+import { TransformerType } from '../../../../shared/transformers/transformer-type'
 import { Button } from '@nextui-org/react'
 import { useRef } from 'react'
 

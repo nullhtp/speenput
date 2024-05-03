@@ -1,6 +1,6 @@
 import { statSync, writeJSON, ensureFile } from 'fs-extra'
 import { Scenario } from '../domain/scenario'
-import { OpenAiTextTransformer } from '../transformers/openai-text-transformer'
+import { OpenAiTextTransformer } from '../../shared/transformers/openai-text/openai-text-transformer.main'
 import { SpeechSource } from '../../shared/sources/speech/speech-source.main'
 import { InputFieldSource } from '../../shared/sources/input-field/input-field-source.main'
 import { InputAppendTarget } from '../../shared/targets/input-append/input-append-target.main'
@@ -40,7 +40,7 @@ export class ScenariosInitializer {
       name: 'Grammar fixer',
       source: new InputFieldSource(),
       transformers: [
-        new OpenAiTextTransformer({
+        new OpenAiTextTransformer('1', {
           apiKey: '???',
           humanMessage: '{data}',
           systemMessage:

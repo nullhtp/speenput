@@ -3,7 +3,7 @@ import { LeftMenu } from './components/LeftMenu'
 import { ScenarioEdit } from './components/ScenarioEdit'
 import { SourceType } from '../../../shared/sources/source-type'
 import { TargetType } from '../../../shared/targets/target-type'
-import { TransformerType } from '../../../shared/types/transformer-type'
+import { TransformerType } from '../../../shared/transformers/transformer-type'
 import { useState } from 'react'
 
 export const Settings = (): JSX.Element => {

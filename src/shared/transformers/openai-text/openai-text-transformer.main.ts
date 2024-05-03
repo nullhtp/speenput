@@ -1,17 +1,16 @@
 import { ChatOpenAI } from '@langchain/openai'
-import { DataTransformer } from '../domain/data-transformer'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { StringOutputParser } from '@langchain/core/output_parsers'
 import { Runnable } from '@langchain/core/runnables'
-import { OpenAiTextTransformerParams } from '../../shared/params/openai-text.transformer'
-import { TransformerDto } from '../../shared/dtos/transformer.dto'
-import { TransformerType } from '../../shared/types/transformer-type'
+import { OpenAiTextTransformerParams } from './openai-text-transformer.params'
+import { TransformerType } from '../transformer-type'
+import { DataTransformer } from '../transformer-base'
 
 export class OpenAiTextTransformer extends DataTransformer {
   private chain: Runnable
 
-  constructor(private readonly params: OpenAiTextTransformerParams) {
-    super()
+  constructor(id: string, params: OpenAiTextTransformerParams) {
+    super(id, TransformerType.OPENAI_TEXT, params)
     const model = new ChatOpenAI({
       model: params.modelName,
       temperature: params.temperature,
@@ -33,19 +32,5 @@ export class OpenAiTextTransformer extends DataTransformer {
     })
 
     return response
-  }
-
-  toDto(): TransformerDto {
-    return {
-      id: '3',
-      type: TransformerType.OPENAI_TEXT,
-      params: {
-        apiKey: this.params.apiKey,
-        humanMessage: this.params.humanMessage,
-        modelName: this.params.modelName,
-        systemMessage: this.params.systemMessage,
-        temperature: this.params.temperature
-      }
-    }
   }
 }
