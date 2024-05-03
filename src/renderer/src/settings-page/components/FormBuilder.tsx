@@ -2,12 +2,13 @@ import { SourceFormDefenitions } from '../../../../shared/sources/source.defenit
 import { CreateControlFunction } from '../hooks/useAppForm'
 import { FieldDefenition } from '../../../../shared/types/field-defenition'
 import { ControlBuilder } from './ControlBuilder'
+import { TargetFormDefenitions } from 'src/shared/targets/target.defenitions'
 
 export const FormBuilder = ({
   defenition,
   createControl
 }: {
-  defenition?: SourceFormDefenitions
+  defenition?: SourceFormDefenitions | TargetFormDefenitions
   createControl: CreateControlFunction
 }): JSX.Element => {
   if (!defenition) {

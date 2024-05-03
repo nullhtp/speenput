@@ -1,9 +1,14 @@
 import { Card, CardHeader, Divider, CardBody } from '@nextui-org/react'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
-import { useAppForm } from '../hooks/useAppForm'
+import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
 import { TargetType } from '../../../../shared/targets/target-type'
 import { TargetDto } from '../../../../shared/targets/target.dto'
+import { FormBuilder } from './FormBuilder'
+import {
+  targetDefenitions,
+  TargetFormDefenitions
+} from '../../../../shared/targets/target.defenitions'
 
 type TargetFormParams = {
   type: TargetType
@@ -14,12 +19,10 @@ type TargetTypeItems = {
   label: string
 }
 
-const targetTypeItems: TargetTypeItems[] = [
-  { value: TargetType.CLIPBOARD, label: 'Put to clipboard' },
-  { value: TargetType.INPUT_APPEND, label: 'Append to Input field' },
-  { value: TargetType.INPUT_REPLACE, label: 'Replace text in Input field' },
-  { value: TargetType.MESSAGE_BOX, label: 'Show in message box' }
-]
+const targetTypeItems: TargetTypeItems[] = targetDefenitions.map((def) => ({
+  value: def.type,
+  label: def.label
+}))
 
 export const TargetForm = ({
   target,
@@ -30,11 +33,14 @@ export const TargetForm = ({
 }): JSX.Element => {
   const formEl = useRef<HTMLFormElement>()
 
-  const { onSubmit, createControl } = useAppForm<TargetFormParams, TargetDto>({
+  const { onSubmit, createControl, watch } = useAppForm<TargetFormParams, TargetDto>({
     initValues: target,
     onEdit,
     formEl
   })
+  const typeWatcher = watch('type')
+
+  const formDefenition = targetDefenitions.find((d) => d.type === typeWatcher)
 
   return (
     <Card className="max-w">
@@ -57,6 +63,10 @@ export const TargetForm = ({
             })}
             items={targetTypeItems}
           ></AppSelect>
+          <FormBuilder
+            createControl={createControl as unknown as CreateControlFunction}
+            defenition={formDefenition as unknown as TargetFormDefenitions}
+          ></FormBuilder>
         </form>
       </CardBody>
       <Divider />
