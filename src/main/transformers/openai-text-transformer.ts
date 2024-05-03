@@ -37,6 +37,7 @@ export class OpenAiTextTransformer extends DataTransformer {
 
   toDto(): TransformerDto {
     return {
+      id: '3',
       type: TransformerType.OPENAI_TEXT,
       params: {
         apiKey: this.params.apiKey,

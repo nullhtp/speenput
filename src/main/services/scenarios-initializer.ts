@@ -1,9 +1,9 @@
 import { statSync, writeJSON, ensureFile } from 'fs-extra'
 import { Scenario } from '../domain/scenario'
-import { SpeechSource } from '../sources/speech-source'
 import { InputAppendTarget } from '../targets/input-append-target'
-import { InputFieldSource } from '../sources/input-field-source'
 import { OpenAiTextTransformer } from '../transformers/openai-text-transformer'
+import { SpeechSource } from '../../sources/speech/speech-source.main'
+import { InputFieldSource } from '../../sources/input-field/input-field-source.main'
 
 export class ScenariosInitializer {
   constructor(private filename: string) {}

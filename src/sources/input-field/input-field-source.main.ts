@@ -1,9 +1,12 @@
 import { clipboard, Key, keyboard, sleep } from '@nut-tree/nut-js'
-import { Source } from '../domain/source'
-import { SourceDto } from '../../shared/dtos/source.dto'
-import { SourceType } from '../../shared/types/source-type'
+import { SourceType } from '../source-type'
+import { Source } from '../source-base'
 
 export class InputFieldSource extends Source {
+  constructor() {
+    super(SourceType.INPUT_FIELD)
+  }
+
   async getText(): Promise<string> {
     const oldContent = await clipboard.getContent()
 
@@ -19,11 +22,5 @@ export class InputFieldSource extends Source {
     await clipboard.setContent(oldContent)
 
     return inputText
-  }
-
-  toDto(): SourceDto {
-    return {
-      type: SourceType.INPUT_FIELD
-    }
   }
 }
