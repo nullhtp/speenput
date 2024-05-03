@@ -1,5 +1,5 @@
 import { SourceType } from './source-type'
-import { assertNever } from '../shared/utils/assertNever'
+import { assertNever } from '../utils/assertNever'
 import { ClipboardSource } from './clipboard/clipboard-source.main'
 import { Source } from './source-base'
 import { SelectionSource } from './selection/selection-source.main'

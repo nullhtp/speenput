@@ -1,5 +1,5 @@
 import { ScenarioDto } from '../../shared/dtos/scenario.dto'
-import { Source } from '../../sources/source-base'
+import { Source } from '../../shared/sources/source-base'
 import { DataTransformer } from './data-transformer'
 import { Target } from './target'
 

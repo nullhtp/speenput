@@ -1,4 +1,4 @@
-import { SourceDto } from '../../sources/source.dto'
+import { SourceDto } from '../sources/source.dto'
 import { TargetDto } from './target.dto'
 import { TransformerDto } from './transformer.dto'
 

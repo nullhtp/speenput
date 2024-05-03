@@ -1,11 +1,11 @@
 import { Card, CardHeader, Divider, CardBody } from '@nextui-org/react'
-import { SourceDto } from '../../../../sources/source.dto'
+import { SourceDto } from '../../../../shared/sources/source.dto'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
-import { SourceType } from '../../../../sources/source-type'
+import { SourceType } from '../../../../shared/sources/source-type'
 import { useAppForm } from '../hooks/useAppForm'
-import { StaticSourceParams } from '../../../../sources/static/static-source.params'
-import { SpeechSourceParams } from '../../../../sources/speech/speech-source.params'
+import { StaticSourceParams } from '../../../../shared/sources/static/static-source.params'
+import { SpeechSourceParams } from '../../../../shared/sources/speech/speech-source.params'
 import { AppInput } from './ui/AppInput'
 
 type SourceFormParams = {

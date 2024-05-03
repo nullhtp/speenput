@@ -1,7 +1,7 @@
 import { ScenarioDto } from '../../../shared/dtos/scenario.dto'
 import { LeftMenu } from './components/LeftMenu'
 import { ScenarioEdit } from './components/ScenarioEdit'
-import { SourceType } from '../../../sources/source-type'
+import { SourceType } from '../../../shared/sources/source-type'
 import { TargetType } from '../../../shared/types/target-type'
 import { TransformerType } from '../../../shared/types/transformer-type'
 import { useState } from 'react'
