@@ -7,6 +7,10 @@ import {
   UseFormReturn
 } from 'react-hook-form'
 
+export type CreateControlFunction<T extends FieldValues = FieldValues> = (
+  params: CreateControlProps<T>
+) => CreateControlResult<T>
+
 type AppFormParams<FormParams, EntityParams> = {
   initValues: FormParams
   onEdit: (params: EntityParams) => void

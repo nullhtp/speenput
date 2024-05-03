@@ -3,10 +3,14 @@ import { SourceDto } from '../../../../shared/sources/source.dto'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
 import { SourceType } from '../../../../shared/sources/source-type'
-import { useAppForm } from '../hooks/useAppForm'
+import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
 import { StaticSourceParams } from '../../../../shared/sources/static/static-source.params'
 import { SpeechSourceParams } from '../../../../shared/sources/speech/speech-source.params'
-import { AppInput } from './ui/AppInput'
+import {
+  sourceDefenitions,
+  SourceFormDefenitions
+} from '../../../../shared/sources/source.defenitions'
+import { FormBuilder } from './FormBuilder'
 
 type SourceFormParams = {
   type: SourceType
@@ -18,13 +22,10 @@ type SourceTypeItems = {
   label: string
 }
 
-const sourceTypeItems: SourceTypeItems[] = [
-  { value: SourceType.CLIPBOARD, label: 'Get data from clipboard' },
-  { value: SourceType.INPUT_FIELD, label: 'Get data from input' },
-  { value: SourceType.SELECTION, label: 'Get data from selection' },
-  { value: SourceType.SPEECH, label: 'Speech to text input' },
-  { value: SourceType.STATIC, label: 'Static text' }
-]
+const sourceTypeItems: SourceTypeItems[] = sourceDefenitions.map((def) => ({
+  value: def.type,
+  label: def.label
+}))
 
 const mapToEntity = ({ type, ...params }: SourceFormParams): SourceDto => {
   return { type, params } as SourceDto
@@ -48,6 +49,8 @@ export const SourceForm = ({
 
   const typeWatcher = watch('type')
 
+  const formDefenition = sourceDefenitions.find((d) => d.type === typeWatcher)
+
   return (
     <Card className="max-w">
       <CardHeader className="flex gap-3">
@@ -69,35 +72,10 @@ export const SourceForm = ({
             })}
             items={sourceTypeItems}
           ></AppSelect>
-          {typeWatcher === SourceType.STATIC && (
-            <AppInput
-              {...createControl({
-                name: 'type',
-                label: 'Static text'
-              })}
-            />
-          )}
-          {typeWatcher === SourceType.SPEECH && (
-            <>
-              <AppInput
-                {...createControl({
-                  name: 'maxDelay',
-                  label: 'Max delay'
-                })}
-                inputMode="decimal"
-                defaultValue="0"
-                isRequired
-              />
-              <AppInput
-                {...createControl({
-                  name: 'apiKey',
-                  label: 'Api key'
-                })}
-                type="password"
-                isRequired
-              />
-            </>
-          )}
+          <FormBuilder
+            createControl={createControl as unknown as CreateControlFunction}
+            defenition={formDefenition as unknown as SourceFormDefenitions}
+          ></FormBuilder>
         </form>
       </CardBody>
       <Divider />
