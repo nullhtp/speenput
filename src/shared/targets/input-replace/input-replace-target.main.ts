@@ -1,9 +1,12 @@
 import { clipboard, Key, keyboard } from '@nut-tree/nut-js'
-import { Target } from '../domain/target'
-import { TargetDto } from '../../shared/dtos/target.dto'
-import { TargetType } from '../../shared/types/target-type'
+import { Target } from '../target-base'
+import { TargetType } from '../target-type'
 
 export class InputReplaceTarget extends Target {
+  constructor() {
+    super(TargetType.INPUT_REPLACE)
+  }
+
   async write(text: string): Promise<void> {
     const oldContent = await clipboard.getContent()
 
@@ -18,11 +21,5 @@ export class InputReplaceTarget extends Target {
     await keyboard.releaseKey(Key.LeftControl, Key.V)
 
     await clipboard.setContent(oldContent)
-  }
-
-  toDto(): TargetDto {
-    return {
-      type: TargetType.INPUT_REPLACE
-    }
   }
 }

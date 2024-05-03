@@ -2,8 +2,8 @@ import { Card, CardHeader, Divider, CardBody } from '@nextui-org/react'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
 import { useAppForm } from '../hooks/useAppForm'
-import { TargetDto } from '../../../../shared/dtos/target.dto'
-import { TargetType } from '../../../../shared/types/target-type'
+import { TargetType } from '../../../../shared/targets/target-type'
+import { TargetDto } from '../../../../shared/targets/target.dto'
 
 type TargetFormParams = {
   type: TargetType

@@ -6,10 +6,8 @@
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts",
     "src/shared/**/*",
-    "src/shared/sources/source.dto.ts",
-    "src/shared/sources/source-type.ts",
-    "src/shared/sources/**/*.params.ts",
-"src/shared/sources/**/*.dto.ts"  ],
+    "src/shared/sources/**/*" ],
+  "exclude": ["src/shared/sources/**/*.main.ts"],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",

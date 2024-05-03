@@ -1,7 +1,7 @@
 import { ScenarioDto } from '../../shared/dtos/scenario.dto'
 import { Source } from '../../shared/sources/source-base'
+import { Target } from '../../shared/targets/target-base'
 import { DataTransformer } from './data-transformer'
-import { Target } from './target'
 
 type ScenarioProps = {
   source: Source

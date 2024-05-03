@@ -1,7 +1,7 @@
 import { ScenarioDto } from '../../shared/dtos/scenario.dto'
 import { Scenario } from '../domain/scenario'
 import { SourceMapper } from '../../shared/sources/source.mapper'
-import { TargetMapper } from './target.mapper'
+import { TargetMapper } from '../../shared/targets/target.mapper'
 import { TransformerMapper } from './transformer.mapper'
 
 export class ScenarioMapper {
