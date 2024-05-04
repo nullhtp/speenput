@@ -17,6 +17,7 @@ export class ScenarioMapper {
     )
 
     return new Scenario({
+      id: dto.id,
       hotkey: dto.hotkey,
       name: dto.name,
       source,
