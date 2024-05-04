@@ -5,7 +5,9 @@ export class ShortcutManager {
   register(keyCombination: string, scenario: Scenario): void {
     try {
       const ret = globalShortcut.register(keyCombination, async () => {
+        console.log(`Start `, keyCombination)
         await scenario.execute()
+        console.log('End ', keyCombination)
       })
 
       if (!ret) {
