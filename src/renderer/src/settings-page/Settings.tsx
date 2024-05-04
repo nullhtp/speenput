@@ -7,7 +7,7 @@ import { SettingsWindowEvents } from '../../../shared/settings-window.events'
 import { SourceType } from '../../../shared/sources/source-type'
 import { TargetType } from '../../../shared/targets/target-type'
 import { v4 } from 'uuid'
-import { pipe, findIndex, propEq, update } from 'ramda'
+import { pipe, findIndex, propEq, update, remove } from 'ramda'
 
 export const Settings = (): JSX.Element => {
   const ipcRenderer = window.electron.ipcRenderer
@@ -22,7 +22,6 @@ export const Settings = (): JSX.Element => {
   }, [])
 
   const onChange = (scenario: ScenarioDto): void => {
-    // const filteredScenarios
     const updatedScenarios = pipe(findIndex(propEq(scenario.id, 'id')), (index) =>
       update(index, scenario, scenarios)
     )(scenarios)
@@ -30,6 +29,16 @@ export const Settings = (): JSX.Element => {
     ipcRenderer.send(ProcessMainEvents.UPDATE_SCENARIOS, updatedScenarios)
     setCurrentScenario(scenario)
   }
+
+  const onDelete = (scenario: ScenarioDto): void => {
+    const updatedScenarios = pipe(findIndex(propEq(scenario.id, 'id')), (index) =>
+      remove(index, 1, scenarios)
+    )(scenarios)
+    setScenarios(updatedScenarios)
+    ipcRenderer.send(ProcessMainEvents.UPDATE_SCENARIOS, updatedScenarios)
+    setCurrentScenario(undefined)
+  }
+
   const onAdd = (): void => {
     const newScenarios: ScenarioDto = {
       id: v4(),
@@ -53,6 +62,7 @@ export const Settings = (): JSX.Element => {
         scenarios={scenarios}
         onChange={(scenario: ScenarioDto) => setCurrentScenario(scenario)}
         onAdd={onAdd}
+        onDelete={onDelete}
       ></LeftMenu>
       <ScenarioEdit scenario={currentScenario} onChange={onChange}></ScenarioEdit>
     </div>

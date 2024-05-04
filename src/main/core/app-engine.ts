@@ -33,9 +33,9 @@ export class AppEngine {
       this.settingsWindow.updateScenarios(this.scenarioManager.getScenarios())
     })
 
-    ipcMain.on(ProcessMainEvents.UPDATE_SCENARIOS, (e, updatedScenarios: ScenarioDto[]) => {
-      console.log('UPDATE_SCENARIOS>>>', updatedScenarios)
+    ipcMain.on(ProcessMainEvents.UPDATE_SCENARIOS, async (e, updatedScenarios: ScenarioDto[]) => {
       this.scenarioManager.save(updatedScenarios)
+      await this.scenarioManager.reload()
     })
 
     app.on('activate', () => {
