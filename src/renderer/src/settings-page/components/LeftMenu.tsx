@@ -5,14 +5,16 @@ import { ScenarioDto } from 'src/shared/scenario/scenario.dto'
 
 export const LeftMenu = ({
   scenarios,
+  current,
   onChange,
   onAdd
 }: {
   scenarios: ScenarioDto[]
+  current?: ScenarioDto
   onChange: (scenario: ScenarioDto) => void
   onAdd: () => void
 }): JSX.Element => {
-  const [selectedKey, setSelectedKey] = useState<string>()
+  const [selectedKey, setSelectedKey] = useState<string | undefined>(current?.id)
 
   const onAction = (key: Key): void => {
     const id = key.toString()
@@ -29,8 +31,8 @@ export const LeftMenu = ({
     <ListboxItem
       key={scenario.id}
       description={scenario.hotkey}
-      className={selectedKey === scenario.name ? 'text-secondary' : ''}
-      color={selectedKey === scenario.name ? 'secondary' : 'default'}
+      className={selectedKey === scenario.id ? 'text-secondary' : ''}
+      color={selectedKey === scenario.id ? 'secondary' : 'default'}
     >
       {scenario.name}
     </ListboxItem>

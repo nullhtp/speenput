@@ -4,7 +4,6 @@ import { AppTray } from './app-tray'
 import { ScenarioManager } from '../services/scenario.manager'
 import { join } from 'path'
 import { FileScenarioStore } from '../services/file-scenario.store'
-import { watchFile } from 'fs-extra'
 import { ScenariosInitializer } from '../services/scenarios-initializer'
 import { ProcessMainEvents } from '../../shared/process-main.events'
 import { ScenarioDto } from '../../shared/scenario/scenario.dto'
@@ -33,13 +32,6 @@ export class AppEngine {
       await this.scenarioManager.reload()
       this.settingsWindow.updateScenarios(this.scenarioManager.getScenarios())
     })
-
-    // watchFile(SCENARIO_FILE_PATH, async () => {
-    //   console.log('watchFile>>>')
-
-    //   await this.scenarioManager.reload()
-    //   this.settingsWindow.updateScenarios(this.scenarioManager.getScenarios())
-    // })
 
     ipcMain.on(ProcessMainEvents.UPDATE_SCENARIOS, (e, updatedScenarios: ScenarioDto[]) => {
       console.log('UPDATE_SCENARIOS>>>', updatedScenarios)

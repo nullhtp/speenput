@@ -19,7 +19,7 @@ export const FormBuilder = ({
     const params = defenition.params as Record<string, FieldDefenition>
     const fields = Object.entries(params).map(([name, def]) => (
       <ControlBuilder
-        name={name}
+        name={`params.${name}`}
         createControl={createControl}
         defenition={def}
         key={name}

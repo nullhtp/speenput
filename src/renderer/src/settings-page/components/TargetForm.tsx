@@ -2,7 +2,6 @@ import { Card, CardHeader, Divider, CardBody } from '@nextui-org/react'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
 import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
-import { TargetType } from '../../../../shared/targets/target-type'
 import { TargetDto } from '../../../../shared/targets/target.dto'
 import { FormBuilder } from './FormBuilder'
 import {
@@ -10,16 +9,7 @@ import {
   TargetFormDefenitions
 } from '../../../../shared/targets/target.defenitions'
 
-type TargetFormParams = {
-  type: TargetType
-}
-
-type TargetTypeItems = {
-  value: TargetType
-  label: string
-}
-
-const targetTypeItems: TargetTypeItems[] = targetDefenitions.map((def) => ({
+const targetTypeItems = targetDefenitions.map((def) => ({
   value: def.type,
   label: def.label
 }))
@@ -33,7 +23,7 @@ export const TargetForm = ({
 }): JSX.Element => {
   const formEl = useRef<HTMLFormElement>()
 
-  const { onSubmit, createControl, watch } = useAppForm<TargetFormParams, TargetDto>({
+  const { onSubmit, createControl, watch } = useAppForm<TargetDto>({
     initValues: target,
     onEdit,
     formEl
@@ -61,6 +51,8 @@ export const TargetForm = ({
               name: 'type',
               label: 'Target type'
             })}
+            isRequired
+            selectedKeys={[typeWatcher]}
             items={targetTypeItems}
           ></AppSelect>
           <FormBuilder

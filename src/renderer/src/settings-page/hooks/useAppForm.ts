@@ -11,11 +11,10 @@ export type CreateControlFunction<T extends FieldValues = FieldValues> = (
   params: CreateControlProps<T>
 ) => CreateControlResult<T>
 
-type AppFormParams<FormParams, EntityParams> = {
+type AppFormParams<FormParams> = {
   initValues: FormParams
-  onEdit: (params: EntityParams) => void
+  onEdit: (params: FormParams) => void
   formEl?: React.MutableRefObject<HTMLFormElement | undefined>
-  mapToEntity?: (data: FormParams) => EntityParams
 }
 
 type AppFormResult<FormParams extends FieldValues> = Omit<
@@ -26,30 +25,22 @@ type AppFormResult<FormParams extends FieldValues> = Omit<
   createControl: (params: CreateControlProps<FormParams>) => CreateControlResult<FormParams>
 }
 
-const defaultMapper = <T>(data): T => {
-  return data as T
-}
-
-export const useAppForm = <FormParams extends FieldValues, EntityParams>({
+export const useAppForm = <FormParams extends FieldValues>({
   initValues,
   onEdit,
-  formEl,
-  mapToEntity
-}: AppFormParams<FormParams, EntityParams>): AppFormResult<FormParams> => {
+  formEl
+}: AppFormParams<FormParams>): AppFormResult<FormParams> => {
   const formProps = useForm<FormParams>({
     values: initValues,
     mode: 'all'
   })
-
-  mapToEntity ??= defaultMapper
 
   const onValueChange = async (): Promise<void> => {
     formEl?.current?.requestSubmit() ?? onSubmit(formProps.getValues())
   }
 
   const onSubmit = (data: FormParams): void => {
-    onEdit(mapToEntity(data))
-    formProps.reset(data)
+    onEdit(data)
   }
 
   return {

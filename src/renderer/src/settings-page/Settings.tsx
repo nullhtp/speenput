@@ -28,6 +28,7 @@ export const Settings = (): JSX.Element => {
     )(scenarios)
     setScenarios(updatedScenarios)
     ipcRenderer.send(ProcessMainEvents.UPDATE_SCENARIOS, updatedScenarios)
+    setCurrentScenario(scenario)
   }
   const onAdd = (): void => {
     const newScenarios: ScenarioDto = {

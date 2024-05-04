@@ -2,34 +2,17 @@ import { Card, CardHeader, Divider, CardBody } from '@nextui-org/react'
 import { SourceDto } from '../../../../shared/sources/source.dto'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
-import { SourceType } from '../../../../shared/sources/source-type'
 import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
-import { StaticSourceParams } from '../../../../shared/sources/static/static-source.params'
-import { SpeechSourceParams } from '../../../../shared/sources/speech/speech-source.params'
 import {
   sourceDefenitions,
   SourceFormDefenitions
 } from '../../../../shared/sources/source.defenitions'
 import { FormBuilder } from './FormBuilder'
 
-type SourceFormParams = {
-  type: SourceType
-} & Partial<StaticSourceParams> &
-  Partial<SpeechSourceParams>
-
-type SourceTypeItems = {
-  value: SourceType
-  label: string
-}
-
-const sourceTypeItems: SourceTypeItems[] = sourceDefenitions.map((def) => ({
+const sourceTypeItems = sourceDefenitions.map((def) => ({
   value: def.type,
   label: def.label
 }))
-
-const mapToEntity = ({ type, ...params }: SourceFormParams): SourceDto => {
-  return { type, params } as SourceDto
-}
 
 export const SourceForm = ({
   source,
@@ -40,11 +23,10 @@ export const SourceForm = ({
 }): JSX.Element => {
   const formEl = useRef<HTMLFormElement>()
 
-  const { onSubmit, createControl, watch } = useAppForm<SourceFormParams, SourceDto>({
+  const { onSubmit, createControl, watch } = useAppForm<SourceDto>({
     initValues: source,
     onEdit,
-    formEl,
-    mapToEntity
+    formEl
   })
 
   const typeWatcher = watch('type')
@@ -70,6 +52,8 @@ export const SourceForm = ({
               name: 'type',
               label: 'Source type'
             })}
+            isRequired
+            selectedKeys={[typeWatcher]}
             items={sourceTypeItems}
           ></AppSelect>
           <FormBuilder
