@@ -1,4 +1,4 @@
-import { Card, CardHeader, Divider, CardBody, Button } from '@nextui-org/react'
+import { Card, CardHeader, CardBody, Button } from '@nextui-org/react'
 import { AppSelect } from './ui/AppSelect'
 import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
 import { TransformerDto } from '../../../../shared/transformers/transformer.dto'
@@ -8,6 +8,7 @@ import {
   TransformerFormDefenitions
 } from '../../../../shared/transformers/transformer.defenitions'
 import { FormBuilder } from './FormBuilder'
+import { DeleteIcon } from '@renderer/icons/DeleteIcon'
 
 const transformerTypeItems = transformerDefenitions.map((def) => ({
   value: def.type,
@@ -38,20 +39,20 @@ export const TransformerForm = ({
   const formDefenition = transformerDefenitions.find((d) => d.type === typeWatcher)
 
   return (
-    <Card className="max-w">
-      <CardHeader className="flex gap-3">
-        <div className="flex flex-col">
-          <p className="text-md">Transform</p>
-          <Button
-            onClick={() => {
-              remove(index)
-            }}
-          >
-            delete
-          </Button>
-        </div>
+    <Card className="max-w flex-none">
+      <CardHeader className="flex justify-between">
+        <p className="text-md">Transform</p>
+        <Button
+          isIconOnly
+          color="danger"
+          variant="light"
+          onClick={() => {
+            remove(index)
+          }}
+        >
+          <DeleteIcon />
+        </Button>
       </CardHeader>
-      <Divider />
       <CardBody className="flex flex-col gap-3">
         <AppSelect
           {...createControl({
@@ -67,7 +68,6 @@ export const TransformerForm = ({
           defenition={formDefenition as unknown as TransformerFormDefenitions}
         ></FormBuilder>
       </CardBody>
-      <Divider />
     </Card>
   )
 }

@@ -1,4 +1,4 @@
-import { Card, CardHeader, Divider, CardBody } from '@nextui-org/react'
+import { Card, CardHeader, CardBody } from '@nextui-org/react'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
 import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
@@ -33,13 +33,10 @@ export const TargetForm = ({
   const formDefenition = targetDefenitions.find((d) => d.type === typeWatcher)
 
   return (
-    <Card className="max-w">
-      <CardHeader className="flex gap-3">
-        <div className="flex flex-col">
-          <p className="text-md">Target</p>
-        </div>
+    <Card className="max-w flex-none">
+      <CardHeader>
+        <p className="text-md">Target</p>
       </CardHeader>
-      <Divider />
       <CardBody>
         <form
           ref={formEl as React.RefObject<HTMLFormElement>}
@@ -61,7 +58,6 @@ export const TargetForm = ({
           ></FormBuilder>
         </form>
       </CardBody>
-      <Divider />
     </Card>
   )
 }

@@ -31,6 +31,7 @@ export const TransformerEdit = ({
 
   return (
     <form
+      className="flex flex-col gap-3"
       ref={formEl as React.RefObject<HTMLFormElement>}
       onSubmit={handleSubmit((data, e) => {
         e?.preventDefault()
@@ -47,7 +48,10 @@ export const TransformerEdit = ({
         />
       ))}
       <Button
+        className="max-w-64 self-center"
         type="button"
+        color="success"
+        variant="bordered"
         onClick={requestWrapper(() => {
           append({
             params: {
@@ -62,7 +66,7 @@ export const TransformerEdit = ({
           })
         })}
       >
-        Add Transform step
+        Add transformation step
       </Button>
     </form>
   )

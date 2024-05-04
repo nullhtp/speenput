@@ -1,4 +1,4 @@
-import { Card, CardHeader, Divider, CardBody } from '@nextui-org/react'
+import { Card, CardHeader, CardBody } from '@nextui-org/react'
 import { SourceDto } from '../../../../shared/sources/source.dto'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
@@ -34,14 +34,11 @@ export const SourceForm = ({
   const formDefenition = sourceDefenitions.find((d) => d.type === typeWatcher)
 
   return (
-    <Card className="max-w">
-      <CardHeader className="flex gap-3">
-        <div className="flex flex-col">
-          <p className="text-md">Source</p>
-        </div>
+    <Card className="flex-none w-full">
+      <CardHeader>
+        <p className="text-md">Source</p>
       </CardHeader>
-      <Divider />
-      <CardBody>
+      <CardBody className="overflow-auto">
         <form
           ref={formEl as React.RefObject<HTMLFormElement>}
           className="flex flex-col gap-3"
@@ -62,7 +59,6 @@ export const SourceForm = ({
           ></FormBuilder>
         </form>
       </CardBody>
-      <Divider />
     </Card>
   )
 }

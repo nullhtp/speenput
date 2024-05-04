@@ -1,6 +1,6 @@
 import { Button, Listbox, ListboxItem, ListboxSection } from '@nextui-org/react'
 import { ListboxWrapper } from './ListboxWrapper'
-import { Key, useState } from 'react'
+import { Key } from 'react'
 import { ScenarioDto } from 'src/shared/scenario/scenario.dto'
 import { DeleteIcon } from '@renderer/icons/DeleteIcon'
 
@@ -17,14 +17,11 @@ export const LeftMenu = ({
   onDelete: (scenario: ScenarioDto) => void
   onAdd: () => void
 }): JSX.Element => {
-  const [selectedKey, setSelectedKey] = useState<string | undefined>(current?.id)
-
   const onAction = (key: Key): void => {
     const id = key.toString()
     if (id === '__new__') {
       onAdd()
     } else if (id) {
-      setSelectedKey(id)
       const selectedItem = scenarios.find((scenario) => scenario.id === id)
       selectedItem && onChange(selectedItem)
     }
@@ -34,8 +31,8 @@ export const LeftMenu = ({
     <ListboxItem
       key={scenario.id}
       description={scenario.hotkey}
-      className={selectedKey === scenario.id ? 'text-secondary' : ''}
-      color={selectedKey === scenario.id ? 'secondary' : 'default'}
+      className={current?.id === scenario.id ? 'text-secondary' : ''}
+      color={current?.id === scenario.id ? 'secondary' : 'default'}
       endContent={
         <Button isIconOnly color="danger" variant="light" onClick={() => onDelete(scenario)}>
           <DeleteIcon />

@@ -57,14 +57,15 @@ export const Settings = (): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-row gap-3">
+    <div className="flex flex-row gap-1 h-lvh">
       <LeftMenu
         scenarios={scenarios}
+        current={currentScenario}
         onChange={(scenario: ScenarioDto) => setCurrentScenario(scenario)}
         onAdd={onAdd}
         onDelete={onDelete}
       ></LeftMenu>
-      <ScenarioEdit scenario={currentScenario} onChange={onChange}></ScenarioEdit>
+      <ScenarioEdit scenario={currentScenario} onChange={onChange} onCreate={onAdd}></ScenarioEdit>
     </div>
   )
 }
