@@ -37,8 +37,8 @@ export class SettingsWindow {
 
   private createWindow(): BrowserWindow {
     const settingsWindow = new BrowserWindow({
-      width: 900,
-      height: 700,
+      width: 1000,
+      height: 800,
       show: false,
       alwaysOnTop: true,
       center: true,

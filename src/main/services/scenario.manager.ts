@@ -21,9 +21,13 @@ export class ScenarioManager {
     const scenarioDtos = await this.store.load()
 
     for (const scenarioDto of scenarioDtos) {
-      const scenario = this.mapper.fromDto(scenarioDto)
-      this.shortcutManager.register(scenarioDto.hotkey, scenario)
-      this.scenarios.set(scenarioDto.name, scenario)
+      try {
+        const scenario = this.mapper.fromDto(scenarioDto)
+        this.shortcutManager.register(scenarioDto.hotkey, scenario)
+        this.scenarios.set(scenarioDto.name, scenario)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 
