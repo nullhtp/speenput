@@ -1,5 +1,6 @@
 import { Menu, Tray, Notification } from 'electron'
 import icon from '../../../resources/icon.png?asset'
+import icon_progress from '../../../resources/icon-progress.png?asset'
 
 export class AppTray {
   private tray: Tray
@@ -16,6 +17,14 @@ export class AppTray {
     ])
     this.tray.setContextMenu(contextMenu)
     this.tray.on('click', handleSettings)
+  }
+
+  changeToInProgress(): void {
+    this.tray.setImage(icon_progress)
+  }
+
+  changeToReady(): void {
+    this.tray.setImage(icon)
   }
 
   showBalloon(title: string, content: string): void {

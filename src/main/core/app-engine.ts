@@ -7,16 +7,24 @@ import { FileScenarioStore } from '../services/file-scenario.store'
 import { ScenariosInitializer } from '../services/scenarios-initializer'
 import { ProcessMainEvents } from '../../shared/process-main.events'
 import { ScenarioDto } from '../../shared/scenario/scenario.dto'
+import { ShortcutManager } from '../services/shortcut-manager'
+import { AppState, Status } from '../services/app-state'
 
 const SCENARIO_FILE_PATH = join('.', 'scenarios.json')
 
 export class AppEngine {
   private settingsWindow = new SettingsWindow()
   private appTray = new AppTray()
+  private appState = new AppState()
 
   private scenarioInitializer = new ScenariosInitializer(SCENARIO_FILE_PATH)
 
-  private scenarioManager = new ScenarioManager(new FileScenarioStore(SCENARIO_FILE_PATH))
+  private shortcutManager = new ShortcutManager(this.appState)
+
+  private scenarioManager = new ScenarioManager(
+    new FileScenarioStore(SCENARIO_FILE_PATH),
+    this.shortcutManager
+  )
 
   async init(): Promise<void> {
     process.on('uncaughtException', (error) => {
@@ -48,6 +56,10 @@ export class AppEngine {
       () => this.settingsWindow.toggle(),
       () => this.exit()
     )
+
+    this.appState.onStatusChange((status) => {
+      status === Status.Ready ? this.appTray.changeToReady() : this.appTray.changeToInProgress()
+    })
   }
 
   getSettingsWindow(): SettingsWindow {

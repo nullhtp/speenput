@@ -6,10 +6,12 @@ import { ScenarioDto } from '../../shared/scenario/scenario.dto'
 
 export class ScenarioManager {
   private mapper = new ScenarioMapper()
-  private shortcutManager = new ShortcutManager()
 
   private scenarios: Map<string, Scenario> = new Map<string, Scenario>()
-  constructor(private readonly store: ScenarioStore) {}
+  constructor(
+    private readonly store: ScenarioStore,
+    private readonly shortcutManager: ShortcutManager
+  ) {}
 
   getScenarios(): Scenario[] {
     return Array.from(this.scenarios.values())
