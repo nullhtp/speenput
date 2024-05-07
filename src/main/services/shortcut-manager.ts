@@ -16,8 +16,6 @@ export class ShortcutManager {
           console.log(`Start `, keyCombination)
           await scenario.execute()
           console.log('End ', keyCombination)
-        } catch (e) {
-          console.log('Error>>> ', e)
         } finally {
           this.state.changeStatus(Status.Ready)
         }
