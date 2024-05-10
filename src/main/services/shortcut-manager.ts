@@ -1,5 +1,5 @@
 import { globalShortcut } from 'electron'
-import { Scenario } from '../../shared/scenario/scenario'
+import { Scenario } from '../domain/scenario'
 import { AppState, Status } from './app-state'
 
 export class ShortcutManager {

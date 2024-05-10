@@ -6,7 +6,7 @@
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts",
     "src/shared/**/*",
-    "src/shared/sources/**/*" ],
+    "src/shared/sources/**/*", "src/main/domain/scenario.mapper.ts", "src/main/domain/scenario.ts", "src/main/services/scenarios.initialization.ts", "src/main/domain/mappers.ts" ],
   "exclude": ["src/shared/**/**/*.main.ts", "src/shared/**/*.mapper.ts", "src/shared/**/scenarios.initialization.ts"],
   "compilerOptions": {
     "composite": true,

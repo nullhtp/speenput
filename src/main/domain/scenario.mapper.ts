@@ -1,7 +1,7 @@
-import { ScenarioDto } from './scenario.dto'
+import { ScenarioDto } from '../../shared/scenario/scenario.dto'
 import { Scenario } from './scenario'
-import { SourceMapper, TargetMapper, TransformerMapper } from '../types/mappers'
-import { SourceFactory, TargetFactory, TransformFactory } from '../types/action-factory'
+import { SourceMapper, TargetMapper, TransformerMapper } from './mappers'
+import { SourceFactory, TargetFactory, TransformFactory } from '../../shared/types/action-factory'
 
 export class ScenarioMapper {
   constructor(

@@ -1,4 +1,4 @@
-import { Scenario } from './scenario'
+import { Scenario } from '../domain/scenario'
 // import { v4 } from 'uuid'
 
 export const initScenarios: Scenario[] = [

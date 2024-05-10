@@ -1,5 +1,5 @@
-import { BaseDto } from './base.dto'
-import { SourceFactory, TargetFactory, TransformFactory } from './action-factory'
+import { BaseDto } from '../../shared/types/base.dto'
+import { SourceFactory, TargetFactory, TransformFactory } from '../../shared/types/action-factory'
 
 type AllFactories = SourceFactory | TargetFactory | TransformFactory
 

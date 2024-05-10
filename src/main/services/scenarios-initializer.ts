@@ -1,5 +1,5 @@
 import { statSync, writeJSON, ensureFile } from 'fs-extra'
-import { initScenarios } from '../../shared/scenario/scenarios.initialization'
+import { initScenarios } from './scenarios.initialization'
 
 export class ScenariosInitializer {
   constructor(private filename: string) {}

@@ -3,7 +3,7 @@ import { join } from 'path'
 import icon from '../../../resources/icon.png?asset'
 import { is } from '@electron-toolkit/utils'
 import { SettingsWindowEvents } from '../../shared/settings-window.events'
-import { Scenario } from '../../shared/scenario/scenario'
+import { Scenario } from '../domain/scenario'
 import { FormDefinition } from '../../shared/types/form-definition'
 
 export class SettingsWindow {

@@ -1,5 +1,5 @@
-import { SourceAction, TargetAction, TransformerAction } from '../types/action-step'
-import { ScenarioDto } from './scenario.dto'
+import { SourceAction, TargetAction, TransformerAction } from '../../shared/types/action-step'
+import { ScenarioDto } from '../../shared/scenario/scenario.dto'
 import uuid from 'uuid'
 
 type ScenarioProps = {
