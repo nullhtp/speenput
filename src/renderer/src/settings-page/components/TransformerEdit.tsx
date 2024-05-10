@@ -1,16 +1,20 @@
-import { TransformerDto } from '../../../../shared/transformers/transformer.dto'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { TransformerForm } from './TransformerForm'
-import { TransformerType } from '../../../../shared/transformers/transformer-type'
 import { Button } from '@nextui-org/react'
 import { useRef } from 'react'
+import { BaseDto } from '@shared/types/base.dto'
+import { FormDefinition } from '@shared/types/form-definition'
+import { v4 } from 'uuid'
 
 export const TransformerEdit = ({
   transformers,
+  definitions,
   onEdit
 }: {
-  transformers?: TransformerDto[]
-  onEdit: (transformers: TransformerDto[]) => void
+  definitions: FormDefinition[]
+
+  transformers?: BaseDto[]
+  onEdit: (transformers: BaseDto[]) => void
 }): JSX.Element => {
   const formEl = useRef<HTMLFormElement>()
 
@@ -40,6 +44,7 @@ export const TransformerEdit = ({
     >
       {fields.map((field, index) => (
         <TransformerForm
+          definitions={definitions}
           key={field.id}
           update={requestWrapper(update)}
           remove={requestWrapper(remove)}
@@ -61,8 +66,8 @@ export const TransformerEdit = ({
               systemMessage: '',
               temperature: 0.3
             },
-            type: TransformerType.OPENAI_TEXT,
-            id: Date.now().toString()
+            type: definitions[0].type,
+            id: v4()
           })
         })}
       >

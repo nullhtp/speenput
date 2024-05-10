@@ -9,6 +9,7 @@ import { ProcessMainEvents } from '../../shared/process-main.events'
 import { ScenarioDto } from '../../shared/scenario/scenario.dto'
 import { ShortcutManager } from '../services/shortcut-manager'
 import { AppState, Status } from '../services/app-state'
+import { PluginManager } from '../services/plugin.manager'
 
 const SCENARIO_FILE_PATH = join('.', 'scenarios.json')
 
@@ -16,23 +17,28 @@ export class AppEngine {
   private settingsWindow = new SettingsWindow()
   private appTray = new AppTray()
   private appState = new AppState()
+  private pluginManager = new PluginManager(this.appTray)
 
   private scenarioInitializer = new ScenariosInitializer(SCENARIO_FILE_PATH)
 
   private shortcutManager = new ShortcutManager(this.appState)
 
-  private scenarioManager = new ScenarioManager(
-    new FileScenarioStore(SCENARIO_FILE_PATH),
-    this.shortcutManager
-  )
+  private scenarioManager!: ScenarioManager
 
   async init(): Promise<void> {
+    this.pluginManager.load()
+    this.scenarioManager = new ScenarioManager(
+      new FileScenarioStore(SCENARIO_FILE_PATH),
+      this.shortcutManager,
+      this.pluginManager
+    )
+
     process.on('uncaughtException', (error) => {
-      this.appTray.showBalloon('Error', error.message)
+      this.appTray.notify('Error', error.message)
     })
 
     process.on('unhandledRejection', (error: Error) => {
-      this.appTray.showBalloon('Error', error.message ?? 'Unknown error')
+      this.appTray.notify('Error', error.message ?? 'Unknown error')
     })
     await this.scenarioInitializer.initializeIfNot()
 
@@ -41,7 +47,15 @@ export class AppEngine {
       this.settingsWindow.updateScenarios(this.scenarioManager.getScenarios())
     })
 
-    ipcMain.on(ProcessMainEvents.UPDATE_SCENARIOS, async (e, updatedScenarios: ScenarioDto[]) => {
+    ipcMain.on(ProcessMainEvents.INIT_SETTINGS_WINDOW, async () => {
+      this.settingsWindow.init({
+        source: this.pluginManager.getSources().map((p) => p.getFormDefinition()),
+        target: this.pluginManager.getTargets().map((p) => p.getFormDefinition()),
+        transform: this.pluginManager.getTransforms().map((p) => p.getFormDefinition())
+      })
+    })
+
+    ipcMain.on(ProcessMainEvents.UPDATE_SCENARIOS, async (_, updatedScenarios: ScenarioDto[]) => {
       this.scenarioManager.save(updatedScenarios)
       await this.scenarioManager.reload()
     })

@@ -1,13 +1,22 @@
 import { ScenarioDto } from './scenario.dto'
 import { Scenario } from './scenario'
-import { SourceMapper } from '../sources/source.mapper'
-import { TargetMapper } from '../targets/target.mapper'
-import { TransformerMapper } from '../transformers/transformer.mapper'
+import { SourceMapper, TargetMapper, TransformerMapper } from '../types/mappers'
+import { SourceFactory, TargetFactory, TransformFactory } from '../types/action-factory'
 
 export class ScenarioMapper {
-  private sourceMapper = new SourceMapper()
-  private targetMapper = new TargetMapper()
-  private transformerMapper = new TransformerMapper()
+  constructor(
+    sourceFactories: SourceFactory[],
+    targetFactories: TargetFactory[],
+    transformersFactories: TransformFactory[]
+  ) {
+    this.sourceMapper = new SourceMapper(sourceFactories)
+    this.targetMapper = new TargetMapper(targetFactories)
+    this.transformerMapper = new TransformerMapper(transformersFactories)
+  }
+
+  private sourceMapper: SourceMapper
+  private targetMapper: TargetMapper
+  private transformerMapper: TransformerMapper
 
   fromDto(dto: ScenarioDto): Scenario {
     const source = this.sourceMapper.fromDto(dto.source)

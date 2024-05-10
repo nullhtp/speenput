@@ -1,29 +1,27 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/react'
-import { SourceDto } from '../../../../shared/sources/source.dto'
 import { useRef } from 'react'
 import { AppSelect } from './ui/AppSelect'
 import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
-import {
-  sourceDefenitions,
-  SourceFormDefenitions
-} from '../../../../shared/sources/source.defenitions'
 import { FormBuilder } from './FormBuilder'
-
-const sourceTypeItems = sourceDefenitions.map((def) => ({
-  value: def.type,
-  label: def.label
-}))
+import { BaseDto } from '../../../../shared/types/base.dto'
+import { FormDefinition } from '../../../../shared/types/form-definition'
 
 export const SourceForm = ({
   source,
+  definitions,
   onEdit
 }: {
-  source: SourceDto
-  onEdit: (source: SourceDto) => void
+  definitions: FormDefinition[]
+  source: BaseDto
+  onEdit: (source: BaseDto) => void
 }): JSX.Element => {
   const formEl = useRef<HTMLFormElement>()
+  const sourceTypeItems = definitions.map((def) => ({
+    value: def.type,
+    label: def.label
+  }))
 
-  const { onSubmit, createControl, watch } = useAppForm<SourceDto>({
+  const { onSubmit, createControl, watch } = useAppForm<BaseDto>({
     initValues: source,
     onEdit,
     formEl
@@ -31,7 +29,7 @@ export const SourceForm = ({
 
   const typeWatcher = watch('type')
 
-  const formDefenition = sourceDefenitions.find((d) => d.type === typeWatcher)
+  const formDefinition = definitions.find((d) => d.type === typeWatcher)
 
   return (
     <Card className="flex-none w-full">
@@ -55,7 +53,7 @@ export const SourceForm = ({
           ></AppSelect>
           <FormBuilder
             createControl={createControl as unknown as CreateControlFunction}
-            defenition={formDefenition as unknown as SourceFormDefenitions}
+            defenition={formDefinition}
           ></FormBuilder>
         </form>
       </CardBody>

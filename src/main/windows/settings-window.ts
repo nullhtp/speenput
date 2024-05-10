@@ -4,6 +4,7 @@ import icon from '../../../resources/icon.png?asset'
 import { is } from '@electron-toolkit/utils'
 import { SettingsWindowEvents } from '../../shared/settings-window.events'
 import { Scenario } from '../../shared/scenario/scenario'
+import { FormDefinition } from '../../shared/types/form-definition'
 
 export class SettingsWindow {
   private settingsWindow: BrowserWindow | null = null
@@ -21,6 +22,14 @@ export class SettingsWindow {
       SettingsWindowEvents.UPDATE_SETTINGS,
       scenarios.map((scenario) => scenario.toDto())
     )
+  }
+
+  init(data: {
+    source: FormDefinition[]
+    target: FormDefinition[]
+    transform: FormDefinition[]
+  }): void {
+    this.emit(SettingsWindowEvents.INIT_SETTINGS_WINDOW, data)
   }
 
   toggle(): void {

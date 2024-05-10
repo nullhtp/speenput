@@ -19,4 +19,4 @@ type TextareaField = BaseField & {
   defaultValue?: string
 }
 
-export type FieldDefenition = InputField | PasswordField | TextareaField
+export type FieldDefinition = InputField | PasswordField | TextareaField

@@ -1,42 +1,43 @@
 import { Card, CardHeader, CardBody, Button } from '@nextui-org/react'
 import { AppSelect } from './ui/AppSelect'
 import { CreateControlFunction, useAppForm } from '../hooks/useAppForm'
-import { TransformerDto } from '../../../../shared/transformers/transformer.dto'
 import { UseFieldArrayRemove, UseFieldArrayUpdate } from 'react-hook-form'
-import {
-  transformerDefenitions,
-  TransformerFormDefenitions
-} from '../../../../shared/transformers/transformer.defenitions'
+
 import { FormBuilder } from './FormBuilder'
 import { DeleteIcon } from '@renderer/icons/DeleteIcon'
-
-const transformerTypeItems = transformerDefenitions.map((def) => ({
-  value: def.type,
-  label: def.label
-}))
+import { BaseDto } from '@shared/types/base.dto'
+import { FormDefinition } from '@shared/types/form-definition'
 
 export const TransformerForm = ({
   update,
   remove,
   index,
+  definitions,
   value
 }: {
-  value: TransformerDto
+  value: BaseDto
+  definitions: FormDefinition[]
+
   index: number
-  update: UseFieldArrayUpdate<{ transformers: TransformerDto[] }, 'transformers'>
+  update: UseFieldArrayUpdate<{ transformers: BaseDto[] }, 'transformers'>
   remove: UseFieldArrayRemove
 }): JSX.Element => {
   const {
     createControl,
     watch,
     formState: { isDirty, isValid }
-  } = useAppForm<TransformerDto>({
+  } = useAppForm<BaseDto>({
     initValues: value,
     onEdit: (data) => isDirty && isValid && update(index, data)
   })
 
+  const transformerTypeItems = definitions.map((def) => ({
+    value: def.type,
+    label: def.label
+  }))
+
   const typeWatcher = watch('type')
-  const formDefenition = transformerDefenitions.find((d) => d.type === typeWatcher)
+  const formDefenition = definitions.find((d) => d.type === typeWatcher)
 
   return (
     <Card className="max-w flex-none">
@@ -65,7 +66,7 @@ export const TransformerForm = ({
         ></AppSelect>
         <FormBuilder
           createControl={createControl as unknown as CreateControlFunction}
-          defenition={formDefenition as unknown as TransformerFormDefenitions}
+          defenition={formDefenition}
         ></FormBuilder>
       </CardBody>
     </Card>

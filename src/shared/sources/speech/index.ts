@@ -1,17 +1,34 @@
 import { SpeechSourceParams } from './speech-source.params'
-import { SourceType } from '../source-type'
-import { Source } from '../source-base'
 import { SpeechRecorder } from 'speech-recorder'
 import { WaveFile } from 'wavefile'
 import { OpenAI, toFile } from 'openai'
 import { globalShortcut } from 'electron'
+import { FormDefinition } from '../../types/form-definition'
+import { SpeechSourceDto } from './speech-source.dto'
+import { speechSourceDefenition } from './speech-source.defenition'
+import { SourceFactory } from '../../types/action-factory'
+import { SourceAction } from '../../types/action-step'
 
-export class SpeechSource extends Source {
-  private openai: OpenAI
+export default class Factory extends SourceFactory {
+  getFormDefinition(): FormDefinition<SpeechSourceDto> {
+    return speechSourceDefenition
+  }
 
-  constructor(private readonly params: SpeechSourceParams) {
-    super(SourceType.SPEECH, params)
-    this.openai = new OpenAI({ apiKey: this.params.apiKey })
+  fromDto({ params }: SpeechSourceDto): Action {
+    return new Action(params)
+  }
+}
+
+class Action extends SourceAction {
+  private _openai?: OpenAI
+
+  private getModel(): OpenAI {
+    if (this._openai) {
+      return this._openai
+    }
+    const params = this.getParams<SpeechSourceParams>()
+    this._openai = new OpenAI({ apiKey: params.apiKey })
+    return this._openai
   }
 
   private unregister(): void {
@@ -23,7 +40,7 @@ export class SpeechSource extends Source {
     }
   }
 
-  async getText(): Promise<string> {
+  async execute(): Promise<string> {
     const buffer: number[] = []
     const sampleRate = 16000
 
@@ -64,7 +81,7 @@ export class SpeechSource extends Source {
         })
       )
       .then((file) => {
-        return this.openai.audio.transcriptions.create({
+        return this.getModel().audio.transcriptions.create({
           file,
           model: 'whisper-1'
         })

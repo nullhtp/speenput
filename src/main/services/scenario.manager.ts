@@ -3,15 +3,23 @@ import { ScenarioStore } from '../domain/scenario.store'
 import { ScenarioMapper } from '../../shared/scenario/scenario.mapper'
 import { ShortcutManager } from './shortcut-manager'
 import { ScenarioDto } from '../../shared/scenario/scenario.dto'
+import { PluginManager } from './plugin.manager'
 
 export class ScenarioManager {
-  private mapper = new ScenarioMapper()
+  private mapper: ScenarioMapper
 
   private scenarios: Map<string, Scenario> = new Map<string, Scenario>()
   constructor(
     private readonly store: ScenarioStore,
-    private readonly shortcutManager: ShortcutManager
-  ) {}
+    private readonly shortcutManager: ShortcutManager,
+    private readonly pluginManager: PluginManager
+  ) {
+    this.mapper = new ScenarioMapper(
+      this.pluginManager.getSources(),
+      this.pluginManager.getTargets(),
+      this.pluginManager.getTransforms()
+    )
+  }
 
   getScenarios(): Scenario[] {
     return Array.from(this.scenarios.values())

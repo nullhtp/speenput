@@ -1,8 +1,9 @@
 import { Menu, Tray, Notification } from 'electron'
 import icon from '../../../resources/icon.png?asset'
 import icon_progress from '../../../resources/icon-progress.png?asset'
+import { Notifier } from '../../shared/types/notifier'
 
-export class AppTray {
+export class AppTray implements Notifier {
   private tray: Tray
 
   constructor() {
@@ -27,7 +28,7 @@ export class AppTray {
     this.tray.setImage(icon)
   }
 
-  showBalloon(title: string, content: string): void {
+  notify(title: string, content: string): void {
     this.tray.displayBalloon({
       title,
       content

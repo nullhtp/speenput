@@ -1,22 +1,20 @@
-import { SourceFormDefenitions } from '../../../../shared/sources/source.defenitions'
 import { CreateControlFunction } from '../hooks/useAppForm'
-import { FieldDefenition } from '../../../../shared/types/field-defenition'
+import { FieldDefinition } from '@shared/types/field-definition'
 import { ControlBuilder } from './ControlBuilder'
-import { TargetFormDefenitions } from '../../../../shared/targets/target.defenitions'
-import { TransformerFormDefenitions } from '../../../../shared/transformers/transformer.defenitions'
+import { FormDefinition } from '@shared/types/form-definition'
 
 export const FormBuilder = ({
   defenition,
   createControl
 }: {
-  defenition?: SourceFormDefenitions | TargetFormDefenitions | TransformerFormDefenitions
+  defenition?: FormDefinition
   createControl: CreateControlFunction
 }): JSX.Element => {
   if (!defenition) {
     return <></>
   }
   if ('params' in defenition) {
-    const params = defenition.params as Record<string, FieldDefenition>
+    const params = defenition.params as Record<string, FieldDefinition>
     const fields = Object.entries(params).map(([name, def]) => (
       <ControlBuilder
         name={`params.${name}`}

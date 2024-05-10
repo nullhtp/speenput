@@ -1,24 +1,22 @@
+import { SourceAction, TargetAction, TransformerAction } from '../types/action-step'
 import { ScenarioDto } from './scenario.dto'
-import { Source } from '../sources/source-base'
-import { Target } from '../targets/target-base'
-import { DataTransformer } from '../transformers/transformer-base'
 import uuid from 'uuid'
 
 type ScenarioProps = {
-  source: Source
-  transformers?: DataTransformer[]
-  target: Target
+  source: SourceAction
+  transformers?: TransformerAction[]
+  target: TargetAction
 } & Omit<ScenarioDto, 'source' | 'transformers' | 'target'>
 
 export class Scenario {
   private id: string
-  private source: Source
-  private target: Target
+  private source: SourceAction
+  private target: TargetAction
 
   private hotkey: string
   private name: string
 
-  private transformers: DataTransformer[]
+  private transformers: TransformerAction[]
 
   constructor({ source, target, transformers, hotkey, name, id }: ScenarioProps) {
     this.id = id ?? uuid.v4()
@@ -30,12 +28,12 @@ export class Scenario {
   }
 
   async execute(): Promise<void> {
-    let data = await this.source.getText()
+    let data = await this.source.execute()
 
     for (const transformer of this.transformers) {
-      data = await transformer.transform(data)
+      data = await transformer.execute(data)
     }
-    await this.target.write(data)
+    await this.target.execute(data)
   }
 
   toDto(): ScenarioDto {

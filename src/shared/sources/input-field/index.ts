@@ -1,13 +1,23 @@
 import { clipboard, Key, keyboard, sleep } from '@nut-tree/nut-js'
-import { SourceType } from '../source-type'
-import { Source } from '../source-base'
+import { FormDefinition } from '../../types/form-definition'
+import { SourceFactory } from '../../types/action-factory'
+import { SourceAction } from '../../types/action-step'
 
-export class InputFieldSource extends Source {
-  constructor() {
-    super(SourceType.INPUT_FIELD)
+export default class Factory extends SourceFactory {
+  getFormDefinition(): FormDefinition {
+    return {
+      type: 'source_base_input_field',
+      label: 'Get data from input'
+    }
   }
 
-  async getText(): Promise<string> {
+  fromDto(): Action {
+    return new Action()
+  }
+}
+
+class Action extends SourceAction {
+  async execute(): Promise<string> {
     const oldContent = await clipboard.getContent()
 
     await keyboard.pressKey(Key.LeftControl, Key.A)

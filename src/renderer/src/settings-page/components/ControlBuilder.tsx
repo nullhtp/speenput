@@ -1,5 +1,5 @@
 import { AppInput } from './ui/AppInput'
-import { FieldDefenition } from '../../../../shared/types/field-defenition'
+import { FieldDefinition } from '@shared/types/field-definition'
 import { AppTextarea } from './ui/AppTextarea'
 import { CreateControlFunction } from '../hooks/useAppForm'
 
@@ -9,7 +9,7 @@ export const ControlBuilder = ({
   createControl
 }: {
   name: string
-  defenition: FieldDefenition
+  defenition: FieldDefinition
   createControl: CreateControlFunction
 }): JSX.Element => {
   switch (defenition.fieldType) {

@@ -1,12 +1,11 @@
-import { FormDefenition } from '../../types/form-defenition'
-import { TransformerType } from '../transformer-type'
+import { FormDefinition } from '../../types/form-definition'
 import { OpenAiTextTransformerDto } from './openai-text-transformer.dto'
 
-type Defenition = FormDefenition<OpenAiTextTransformerDto>
+type Defenition = FormDefinition<OpenAiTextTransformerDto>
 
 export const openAiTextTransformerDefenition: Defenition = {
-  type: TransformerType.OPENAI_TEXT,
-  label: 'Transform data with LLM',
+  type: 'transform_base_openai_text',
+  label: 'Transform data with OpenAI LLM',
   params: {
     apiKey: { fieldType: 'password', label: 'Api key', required: true },
     modelName: {

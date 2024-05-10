@@ -4,8 +4,6 @@ import { ScenarioEdit } from './components/ScenarioEdit'
 import { useEffect, useState } from 'react'
 import { ProcessMainEvents } from '../../../shared/process-main.events'
 import { SettingsWindowEvents } from '../../../shared/settings-window.events'
-import { SourceType } from '../../../shared/sources/source-type'
-import { TargetType } from '../../../shared/targets/target-type'
 import { v4 } from 'uuid'
 import { pipe, findIndex, propEq, update, remove } from 'ramda'
 
@@ -14,11 +12,20 @@ export const Settings = (): JSX.Element => {
 
   const [scenarios, setScenarios] = useState<ScenarioDto[]>([])
   const [currentScenario, setCurrentScenario] = useState<ScenarioDto | undefined>()
+  const [defenitions, setDefenitions] = useState({
+    source: [],
+    target: [],
+    transform: []
+  })
 
   ipcRenderer.on(SettingsWindowEvents.UPDATE_SETTINGS, (_, result) => setScenarios(result))
+  ipcRenderer.on(SettingsWindowEvents.INIT_SETTINGS_WINDOW, (_, result) => {
+    setDefenitions(result)
+    ipcRenderer.send(ProcessMainEvents.GET_SETTINGS)
+  })
 
   useEffect(() => {
-    ipcRenderer.send(ProcessMainEvents.GET_SETTINGS)
+    ipcRenderer.send(ProcessMainEvents.INIT_SETTINGS_WINDOW)
   }, [])
 
   const onChange = (scenario: ScenarioDto): void => {
@@ -45,10 +52,12 @@ export const Settings = (): JSX.Element => {
       hotkey: 'ALT+',
       name: `New Scenario ${Date.now()}`,
       source: {
-        type: SourceType.INPUT_FIELD
+        type: '',
+        params: {}
       },
       target: {
-        type: TargetType.INPUT_REPLACE
+        type: '',
+        params: {}
       }
     }
 
@@ -65,7 +74,14 @@ export const Settings = (): JSX.Element => {
         onAdd={onAdd}
         onDelete={onDelete}
       ></LeftMenu>
-      <ScenarioEdit scenario={currentScenario} onChange={onChange} onCreate={onAdd}></ScenarioEdit>
+      <ScenarioEdit
+        sourceDefinitions={defenitions.source}
+        targetDefinitions={defenitions.target}
+        transformDefinitions={defenitions.transform}
+        scenario={currentScenario}
+        onChange={onChange}
+        onCreate={onAdd}
+      ></ScenarioEdit>
     </div>
   )
 }

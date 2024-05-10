@@ -1,12 +1,10 @@
-import { SourceDto } from '../sources/source.dto'
-import { TargetDto } from '../targets/target.dto'
-import { TransformerDto } from '../transformers/transformer.dto'
+import { BaseDto } from '../types/base.dto'
 
 export type ScenarioDto = {
   id: string
-  source: SourceDto
-  transformers?: TransformerDto[]
-  target: TargetDto
+  source: BaseDto
+  transformers?: BaseDto[]
+  target: BaseDto
   hotkey: string
   name: string
 }

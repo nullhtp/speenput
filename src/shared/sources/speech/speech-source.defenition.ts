@@ -1,12 +1,11 @@
-import { FormDefenition } from '../../types/form-defenition'
-import { SourceType } from '../source-type'
+import { FormDefinition } from '../../types/form-definition'
 import { SpeechSourceDto } from './speech-source.dto'
 
-type Defenition = FormDefenition<SpeechSourceDto>
+type Defenition = FormDefinition<SpeechSourceDto>
 
 export const speechSourceDefenition: Defenition = {
-  type: SourceType.SPEECH,
-  label: 'Speech to text input',
+  type: 'source_base_speech_openai',
+  label: 'Speech to text input OpenAI',
 
   params: {
     apiKey: {
