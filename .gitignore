@@ -4,3 +4,4 @@ out
 scenarios.json
 .DS_Store
 *.log*
+*.db

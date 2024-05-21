@@ -3,13 +3,13 @@ import { SettingsWindow } from '../windows/settings-window'
 import { AppTray } from './app-tray'
 import { ScenarioManager } from '../services/scenario.manager'
 import { join } from 'path'
-import { FileScenarioStore } from '../services/file-scenario.store'
 import { ScenariosInitializer } from '../services/scenarios-initializer'
 import { ProcessMainEvents } from '../../shared/process-main.events'
 import { ScenarioDto } from '../../shared/scenario/scenario.dto'
 import { ShortcutManager } from '../services/shortcut-manager'
 import { AppState, Status } from '../services/app-state'
 import { PluginManager } from '../services/plugin.manager'
+import { DbScenarioStore } from '../services/db-scenario.store'
 
 const SCENARIO_FILE_PATH = join('.', 'scenarios.json')
 
@@ -28,7 +28,7 @@ export class AppEngine {
   async init(): Promise<void> {
     this.pluginManager.load()
     this.scenarioManager = new ScenarioManager(
-      new FileScenarioStore(SCENARIO_FILE_PATH),
+      new DbScenarioStore(),
       this.shortcutManager,
       this.pluginManager
     )
