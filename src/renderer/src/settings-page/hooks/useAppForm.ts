@@ -1,6 +1,7 @@
 import {
   FieldErrors,
   FieldValues,
+  FormState,
   Path,
   useForm,
   UseFormRegister,
@@ -13,7 +14,7 @@ export type CreateControlFunction<T extends FieldValues = FieldValues> = (
 
 type AppFormParams<FormParams> = {
   initValues: FormParams
-  onEdit: (params: FormParams) => void
+  onEdit: (params: FormParams, formState: FormState<FieldValues>) => void
   formEl?: React.MutableRefObject<HTMLFormElement | undefined>
 }
 
@@ -40,7 +41,7 @@ export const useAppForm = <FormParams extends FieldValues>({
   }
 
   const onSubmit = (data: FormParams): void => {
-    onEdit(data)
+    onEdit(data, formProps.formState)
   }
 
   return {

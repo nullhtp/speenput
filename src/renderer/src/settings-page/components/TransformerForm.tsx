@@ -22,13 +22,11 @@ export const TransformerForm = ({
   update: UseFieldArrayUpdate<{ transformers: BaseDto[] }, 'transformers'>
   remove: UseFieldArrayRemove
 }): JSX.Element => {
-  const {
-    createControl,
-    watch,
-    formState: { isDirty, isValid }
-  } = useAppForm<BaseDto>({
+  const { createControl, watch } = useAppForm<BaseDto>({
     initValues: value,
-    onEdit: (data) => isDirty && isValid && update(index, data)
+    onEdit: (data) => {
+      return update(index, data)
+    }
   })
 
   const transformerTypeItems = definitions.map((def) => ({
