@@ -39,6 +39,7 @@
     "react-router-dom": "^6.22.3",
     "speech-recorder": "^2.1.0",
     "uuid": "^9.0.1",
+    "vm2": "^3.9.19",
     "wavefile": "^11.0.0"
   },
   "devDependencies": {

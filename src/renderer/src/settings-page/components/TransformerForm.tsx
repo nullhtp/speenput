@@ -22,7 +22,7 @@ export const TransformerForm = ({
   update: UseFieldArrayUpdate<{ transformers: BaseDto[] }, 'transformers'>
   remove: UseFieldArrayRemove
 }): JSX.Element => {
-  const { createControl, watch } = useAppForm<BaseDto>({
+  const { createControl, watch, getValues } = useAppForm<BaseDto>({
     initValues: value,
     onEdit: (data) => {
       return update(index, data)
@@ -58,6 +58,7 @@ export const TransformerForm = ({
             name: 'type',
             label: 'Transformer type'
           })}
+          onBlur={() => setTimeout(() => update(index, getValues()), 20)}
           selectedKeys={[typeWatcher]}
           isRequired
           items={transformerTypeItems}
