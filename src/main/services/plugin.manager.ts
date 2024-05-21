@@ -8,6 +8,7 @@ import InputAppendTargetFactory from '../../shared/targets/input-append'
 import InputReplaceTargetFactory from '../../shared/targets/input-replace'
 import MessageboxTargetFactory from '../../shared/targets/messagebox'
 import OpenAiTextTransformerFactory from '../../shared/transformers/openai-text'
+import EmptyCheckerTransformerFactory from '../../shared/transformers/empty-checker'
 import {
   FactoryType,
   SourceFactory,
@@ -24,7 +25,8 @@ const plugins = [
   InputAppendTargetFactory,
   InputReplaceTargetFactory,
   MessageboxTargetFactory,
-  OpenAiTextTransformerFactory
+  OpenAiTextTransformerFactory,
+  EmptyCheckerTransformerFactory
 ]
 
 export class PluginManager {
