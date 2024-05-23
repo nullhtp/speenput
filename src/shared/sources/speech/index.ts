@@ -63,10 +63,6 @@ class Action extends SourceAction {
         for (let i = 0; i < audio.length; i++) {
           buffer.push(audio[i])
         }
-
-        if (buffer.length >= sampleRate) {
-          wav.fromScratch(1, sampleRate, '16', buffer)
-        }
       }
     })
 
@@ -84,6 +80,9 @@ class Action extends SourceAction {
         this.context.notifier.notify('Speech recognition finished', 'Now trying to recognize')
         this.unregister()
         recorder.stop()
+        if (buffer.length >= sampleRate) {
+          wav.fromScratch(1, sampleRate, '16', buffer)
+        }
         resolve('')
       })
     })
