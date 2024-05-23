@@ -5,19 +5,13 @@ type Defenition = FormDefinition<SpeechSourceDto>
 
 export const speechSourceDefenition: Defenition = {
   type: 'source_base_speech_openai',
-  label: 'Speech to text input OpenAI',
+  label: 'OpenAI speech to text input',
 
   params: {
     apiKey: {
       fieldType: 'password',
       label: 'Api key',
       required: true
-    },
-    maxDelay: {
-      fieldType: 'input',
-      inputMode: 'decimal',
-      defaultValue: '300',
-      label: 'Max delay'
     }
   }
 }
