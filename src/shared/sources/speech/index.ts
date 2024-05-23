@@ -8,6 +8,7 @@ import { SpeechSourceDto } from './speech-source.dto'
 import { speechSourceDefenition } from './speech-source.defenition'
 import { SourceFactory } from '../../types/action-factory'
 import { SourceAction } from '../../types/action-step'
+import { DefaultContext } from '../../types/default-action-params'
 
 export default class Factory extends SourceFactory {
   getFormDefinition(): FormDefinition<SpeechSourceDto> {
@@ -15,12 +16,19 @@ export default class Factory extends SourceFactory {
   }
 
   fromDto({ params }: SpeechSourceDto): Action {
-    return new Action(params)
+    return new Action(this.context, params)
   }
 }
 
 class Action extends SourceAction {
   private _openai?: OpenAI
+
+  constructor(
+    private readonly context: DefaultContext,
+    params: SpeechSourceParams
+  ) {
+    super(params)
+  }
 
   private getModel(): OpenAI {
     if (this._openai) {
@@ -41,6 +49,10 @@ class Action extends SourceAction {
   }
 
   async execute(): Promise<string> {
+    this.context.notifier.notify(
+      'Speech recognition started',
+      'Press Enter to compleate or Esc to cancel'
+    )
     const buffer: number[] = []
     const sampleRate = 16000
 
@@ -69,6 +81,7 @@ class Action extends SourceAction {
         reject(Error('Cancelled by user'))
       })
       globalShortcut.register('Enter', () => {
+        this.context.notifier.notify('Speech recognition finished', 'Now trying to recognize')
         this.unregister()
         recorder.stop()
         resolve('')
